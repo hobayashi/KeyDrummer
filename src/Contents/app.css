@@ -41,12 +41,13 @@ body {
 }
 
 .drum-part-left-pedal {
-    left: 45%;
-    bottom: 40%;
+    left: 20%;
+    bottom: 20%;
+    transform: rotate(-45deg);
 }
 
 .drum-part-right-pedal {
-    right: 35%;
+    right: 43%;
     bottom: 40%;
 }
 
