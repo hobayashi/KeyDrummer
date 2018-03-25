@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "npx electron ./src",
+    "build-macOS": "npx electron-packager ./src SoundSamplerVerE --platform=darwin --arch=x64 --overwrite",
+    "build-windows": "npx electron-packager ./src SoundSamplerVerE --platform=win32 --arch=x64 --overwrite"
+  },
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-packager": "^11.0.1"
+  },
+  "private": true
+}

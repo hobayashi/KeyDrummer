@@ -1,0 +1,16 @@
+{
+    "sound": [
+        {
+            "key": "b",
+            "charCode": "66",
+            "name": "openHH",
+            "path": ""
+        },
+        {
+            "key": "g",
+            "charCode": "71",
+            "name": "openHH",
+            "path": ""
+        }
+    ]
+}

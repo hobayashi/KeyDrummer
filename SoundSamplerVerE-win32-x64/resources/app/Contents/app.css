@@ -1,0 +1,115 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+}
+
+.drum {
+    height: 420px;
+    width: 470px;
+    position: relative;
+}
+
+.drum-part-common {
+    position: absolute;
+    border: solid 1px black;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+.drum-part-small {
+    position: absolute;
+    border: solid 1px black;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;    
+}
+
+.drum-part-foot {
+    position: absolute;
+    border: solid 1px black;
+    width: 20px;
+    height: 60px;
+}
+
+.drum-part-left-pedal {
+    left: 45%;
+    bottom: 40%;
+}
+
+.drum-part-right-pedal {
+    right: 35%;
+    bottom: 40%;
+}
+
+.drum-part-middle-tom {
+    top: 20%;
+    right: 23%;
+}
+
+.drum-part-high-tom {
+    top: 20%;
+    left: 33%;
+}
+
+.drum-part-snare {
+    bottom: 35%;
+    left: 20%;
+}
+
+.drum-part-low-tom {
+    bottom: 35%;
+    right: 10%;
+}
+
+.drum-part-crash {
+    top: 10%;
+    right: 0;
+}
+
+.drum-part-china {
+    top: 10%;
+    left: 10%;
+}
+
+.drum-part-highhat {
+    bottom: 35%;
+    left: 0;
+}
+
+
+.snare, .bass {
+    display: flex;
+}
+
+.drum-line {
+    display: flex;
+}
+
+.open-hh, .close-hh {
+    border: solid 1px black;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+.snare-left, .bass-left {
+    border: solid 1px black;
+    width: 50px;
+    height: 100px;
+    border-radius: 50px 0 0 50px;
+}
+.snare-right, .bass-right {
+    border: solid 1px black;
+    width: 50px;
+    height: 100px;
+    border-radius: 0 50px 50px 0;
+}
