@@ -57,7 +57,7 @@ namespace Lib {
                     audio.PlaySound("Contents/Kick08.wav");
                     Decorator.toggleColor(".drum-part-right-pedal");
                     break;
-                    case 71://g
+                    case 72://h
                     audio.PlaySound("Contents/Kick08.wav");
                     Decorator.toggleColor(".drum-part-left-pedal");
                     break;
