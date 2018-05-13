@@ -42,7 +42,7 @@ namespace Lib {
             setTimeout(() => {
                 $(selector).css("background-color", "white")
             }, 80);
-}
+        }
     }
 
     export class AudioInitializer {
@@ -86,14 +86,19 @@ namespace Lib {
                     audio.PlaySound("Contents/Sounds/China Cymbal04.wav");
                     Decorator.toggleColor(".drum-part-china");
                     break;
-                    case 70://f
-                    case 68://d
+                    case 84://t
+                    case 71://g
                     audio.PlaySound("Contents/Sounds/Floor Tom09.wav");
                     Decorator.toggleColor(".drum-part-low-tom");
                     break;
+                    case 70://f
                     case 82://r
-                    case 69://e
                     audio.PlaySound("Contents/Sounds/Mid Tom05.wav");
+                    Decorator.toggleColor(".drum-part-middle-tom");
+                    break;
+                    case 68://d
+                    case 69://e
+                    audio.PlaySound("Contents/Sounds/High Tom08.wav");
                     Decorator.toggleColor(".drum-part-high-tom");
                     break;
                     case 83://s

@@ -85,32 +85,3 @@ body {
     bottom: 35%;
     left: 0;
 }
-
-
-.snare, .bass {
-    display: flex;
-}
-
-.drum-line {
-    display: flex;
-}
-
-.open-hh, .close-hh {
-    border: solid 1px black;
-    width: 100px;
-    height: 100px;
-    border-radius: 100%;
-}
-
-.snare-left, .bass-left {
-    border: solid 1px black;
-    width: 50px;
-    height: 100px;
-    border-radius: 50px 0 0 50px;
-}
-.snare-right, .bass-right {
-    border: solid 1px black;
-    width: 50px;
-    height: 100px;
-    border-radius: 0 50px 50px 0;
-}
