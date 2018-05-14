@@ -1,4 +1,4 @@
 $(() => {
-  Lib.AudioInitializer.init();
+	Lib.AudioInitializer.init();
 })
 
