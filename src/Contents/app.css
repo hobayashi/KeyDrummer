@@ -4,11 +4,27 @@ html {
 }
 
 body {
+	font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"Yu Gothic","游ゴシック",YuGothic,"游ゴシック体",Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+	font-size: 14px;
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100%;
     width: 100%;
     margin: 0px;
+}
+
+h1 {
+	text-align: center;
+}
+
+.app-hidden {
+	display: none;
+}
+
+.container, .controller {
+	display: flex;
+	justify-content: center;
+	align-content: center;
 }
 
 .drum {

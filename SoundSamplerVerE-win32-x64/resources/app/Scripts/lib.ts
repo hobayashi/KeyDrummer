@@ -108,7 +108,9 @@ namespace Lib {
 				}
 			}).on("input", ".volume-slider", event => {
 				$(".volume-value").html($(event.currentTarget).val().toString());
-			});
+			}).on("click", "#checkbox-show-key", event => {
+				$(".label-asign").toggleClass("app-hidden");
+			})
 		}
 	}
 }

@@ -108,6 +108,8 @@ var Lib;
                 }
             }).on("input", ".volume-slider", function (event) {
                 $(".volume-value").html($(event.currentTarget).val().toString());
+            }).on("click", "#checkbox-show-key", function (event) {
+                $(".label-asign").toggleClass("app-hidden");
             });
         };
         return AudioInitializer;
