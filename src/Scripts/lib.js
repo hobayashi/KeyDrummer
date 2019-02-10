@@ -1,6 +1,6 @@
 var Lib;
 (function (Lib) {
-    var AudioWrapper = /** @class */ (function () {
+    var AudioWrapper = (function () {
         function AudioWrapper(volume) {
             this.audioElem = new Audio();
             this.audioElem.volume = volume;
@@ -33,7 +33,7 @@ var Lib;
         return AudioWrapper;
     }());
     Lib.AudioWrapper = AudioWrapper;
-    var Decorator = /** @class */ (function () {
+    var Decorator = (function () {
         function Decorator() {
         }
         Decorator.toggleColor = function (selector) {
@@ -45,7 +45,7 @@ var Lib;
         return Decorator;
     }());
     Lib.Decorator = Decorator;
-    var AudioInitializer = /** @class */ (function () {
+    var AudioInitializer = (function () {
         function AudioInitializer() {
         }
         AudioInitializer.init = function () {
@@ -53,55 +53,55 @@ var Lib;
                 console.log(event.keyCode);
                 var audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
                 switch (event.keyCode) {
-                    case 66://b
-                        audio.PlaySound("Contents/Sounds/Kick08.wav");
-                        Decorator.toggleColor(".drum-part-right-pedal");
-                        break;
-                    case 72://h
+                    case 66:
                         audio.PlaySound("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-left-pedal");
                         break;
-                    case 32://space
+                    case 72:
+                        audio.PlaySound("Contents/Sounds/Kick08.wav");
+                        Decorator.toggleColor(".drum-part-right-pedal");
+                        break;
+                    case 32:
                         audio.PlaySound("Contents/Sounds/Crash Cymbal-R06.wav");
                         Decorator.toggleColor(".drum-part-crash");
                         break;
-                    case 65://a
+                    case 65:
                         audio.PlaySound("Contents/Sounds/OHH Edge03.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
-                    case 88://x
+                    case 88:
                         audio.PlaySound("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
-                    case 86://v
+                    case 86:
                         audio.PlaySound("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
-                    case 90: //z
-                    case 67://c
+                    case 90:
+                    case 67:
                         audio.PlaySound("Contents/Sounds/CHH Edge06.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
-                    case 16://shift
+                    case 16:
                         audio.PlaySound("Contents/Sounds/China Cymbal04.wav");
                         Decorator.toggleColor(".drum-part-china");
                         break;
-                    case 84: //t
-                    case 71://g
+                    case 84:
+                    case 71:
                         audio.PlaySound("Contents/Sounds/Floor Tom09.wav");
                         Decorator.toggleColor(".drum-part-low-tom");
                         break;
-                    case 70: //f
-                    case 82://r
+                    case 70:
+                    case 82:
                         audio.PlaySound("Contents/Sounds/Mid Tom05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
-                    case 68: //d
-                    case 69://e
+                    case 68:
+                    case 69:
                         audio.PlaySound("Contents/Sounds/High Tom08.wav");
                         Decorator.toggleColor(".drum-part-high-tom");
                         break;
-                    case 83://s
+                    case 83:
                         audio.PlaySound("Contents/Sounds/Ride Cymbal-Tip05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
@@ -116,4 +116,3 @@ var Lib;
     }());
     Lib.AudioInitializer = AudioInitializer;
 })(Lib || (Lib = {}));
-//# sourceMappingURL=lib.js.map
