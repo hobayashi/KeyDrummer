@@ -55,11 +55,11 @@ namespace Lib {
 				switch (event.keyCode) {
 					case 66://b
 						audio.PlaySound("Contents/Sounds/Kick08.wav");
-						Decorator.toggleColor(".drum-part-right-pedal");
-						break;
-					case 72://h
-						audio.PlaySound("Contents/Sounds/Kick08.wav");
 						Decorator.toggleColor(".drum-part-left-pedal");
+						break;
+						case 72://h
+						audio.PlaySound("Contents/Sounds/Kick08.wav");
+						Decorator.toggleColor(".drum-part-right-pedal");
 						break;
 					case 32://space
 						audio.PlaySound("Contents/Sounds/Crash Cymbal-R06.wav");

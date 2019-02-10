@@ -1,18 +1,18 @@
 var Lib;
 (function (Lib) {
-    var AudioWrapper = /** @class */ (function () {
-        function AudioWrapper(volume) {
+    class AudioWrapper {
+        constructor(volume) {
             this.audioElem = new Audio();
             this.audioElem.volume = volume;
         }
-        AudioWrapper.prototype.PlaySound = function (path) {
+        PlaySound(path) {
             this.audioElem.src = path;
             this.audioElem.play();
-        };
-        AudioWrapper.prototype.StopSound = function () {
+        }
+        StopSound() {
             this.audioElem.pause();
-        };
-        AudioWrapper.prototype.Volume = function (up) {
+        }
+        Volume(up) {
             if (up) {
                 if (0.9 < this.audioElem.volume) {
                     this.audioElem.volume = 1;
@@ -29,37 +29,31 @@ var Lib;
                     this.audioElem.volume -= 0.1;
                 }
             }
-        };
-        return AudioWrapper;
-    }());
-    Lib.AudioWrapper = AudioWrapper;
-    var Decorator = /** @class */ (function () {
-        function Decorator() {
         }
-        Decorator.toggleColor = function (selector) {
+    }
+    Lib.AudioWrapper = AudioWrapper;
+    class Decorator {
+        static toggleColor(selector) {
             $(selector).css("background-color", "grey");
-            setTimeout(function () {
+            setTimeout(() => {
                 $(selector).css("background-color", "white");
             }, 80);
-        };
-        return Decorator;
-    }());
-    Lib.Decorator = Decorator;
-    var AudioInitializer = /** @class */ (function () {
-        function AudioInitializer() {
         }
-        AudioInitializer.init = function () {
-            $(document).on("keydown", function (event) {
+    }
+    Lib.Decorator = Decorator;
+    class AudioInitializer {
+        static init() {
+            $(document).on("keydown", event => {
                 console.log(event.keyCode);
-                var audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
+                const audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
                 switch (event.keyCode) {
                     case 66://b
                         audio.PlaySound("Contents/Sounds/Kick08.wav");
-                        Decorator.toggleColor(".drum-part-right-pedal");
+                        Decorator.toggleColor(".drum-part-left-pedal");
                         break;
                     case 72://h
                         audio.PlaySound("Contents/Sounds/Kick08.wav");
-                        Decorator.toggleColor(".drum-part-left-pedal");
+                        Decorator.toggleColor(".drum-part-right-pedal");
                         break;
                     case 32://space
                         audio.PlaySound("Contents/Sounds/Crash Cymbal-R06.wav");
@@ -106,14 +100,13 @@ var Lib;
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
                 }
-            }).on("input", ".volume-slider", function (event) {
+            }).on("input", ".volume-slider", event => {
                 $(".volume-value").html($(event.currentTarget).val().toString());
-            }).on("click", "#checkbox-show-key", function (event) {
+            }).on("click", "#checkbox-show-key", event => {
                 $(".label-asign").toggleClass("app-hidden");
             });
-        };
-        return AudioInitializer;
-    }());
+        }
+    }
     Lib.AudioInitializer = AudioInitializer;
 })(Lib || (Lib = {}));
 //# sourceMappingURL=lib.js.map
