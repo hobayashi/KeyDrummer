@@ -1,8 +1,5 @@
 // アプリケーション作成用のモジュールを読み込み
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-
+const { app, ipcMain, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -14,11 +11,11 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 490,
 		height: 600,
-		webPreferences: {
-			// jqueryを使う
-			// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
-			nodeIntegration: false
-		}
+		// webPreferences: {
+		// 	// jqueryを使う
+		// 	// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
+		// 	nodeIntegration: false
+		// }
 	});
 
 	// メインウィンドウに表示するURLを指定します
@@ -28,9 +25,6 @@ function createWindow() {
 		protocol: 'file:',
 		slashes: true
 	}));
-
-	// デベロッパーツールの起動
-	mainWindow.webContents.openDevTools();
 
 	// メインウィンドウが閉じられたときの処理
 	mainWindow.on('closed', () => {
@@ -54,4 +48,12 @@ app.on('activate', () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+ipcMain.on('resize', event => {
+	mainWindow.setSize(100, 200);
+	event.sender.send('reply', 'done');
+}).on('showDevTools', event => {
+	// デベロッパーツールの起動
+	mainWindow.webContents.openDevTools();
 });
