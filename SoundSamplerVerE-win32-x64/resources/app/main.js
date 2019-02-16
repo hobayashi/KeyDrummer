@@ -6,11 +6,18 @@ const url = require('url');
 // メインウィンドウ
 let mainWindow;
 
+// ウィンドウサイズ
+const windowSize = {
+	width: 490,
+	height: 600
+};
+
 function createWindow() {
 	// メインウィンドウを作成します
 	mainWindow = new BrowserWindow({
-		width: 490,
-		height: 600,
+		titleBarStyle: "customButtonsOnHover",
+		width: windowSize.width,
+		height: windowSize.height,
 		// webPreferences: {
 		// 	// jqueryを使う
 		// 	// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
@@ -50,9 +57,15 @@ app.on('activate', () => {
 	}
 });
 
-ipcMain.on('resize', event => {
-	mainWindow.setSize(100, 200);
-	event.sender.send('reply', 'done');
+// IPC（レンダープロセスから通知される）
+ipcMain.on('resize', (event, isExpand) => {
+	if (isExpand) {
+		// フル表示
+		mainWindow.setSize(windowSize.width, windowSize.height);
+	} else {
+		// ミニ表示
+		mainWindow.setSize(windowSize.width, 150);
+	}
 }).on('showDevTools', event => {
 	// デベロッパーツールの起動
 	mainWindow.webContents.openDevTools();

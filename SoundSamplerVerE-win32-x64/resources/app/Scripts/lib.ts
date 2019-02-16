@@ -40,7 +40,7 @@ namespace Lib {
 		public static toggleColor(selector: string): void {
 			$(selector).css("background-color", "grey");
 			setTimeout(() => {
-				$(selector).css("background-color", "white")
+				$(selector).css("background-color", "#1e1e1e")
 			}, 80);
 		}
 	}

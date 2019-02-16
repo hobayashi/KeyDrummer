@@ -14,14 +14,16 @@ const windowSize = {
 
 function createWindow() {
 	// メインウィンドウを作成します
-	mainWindow = new BrowserWindow(
-		windowSize
+	mainWindow = new BrowserWindow({
+		titleBarStyle: "customButtonsOnHover",
+		width: windowSize.width,
+		height: windowSize.height,
 		// webPreferences: {
 		// 	// jqueryを使う
 		// 	// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
 		// 	nodeIntegration: false
 		// }
-	);
+	});
 
 	// メインウィンドウに表示するURLを指定します
 	// （今回はmain.jsと同じディレクトリのindex.html）

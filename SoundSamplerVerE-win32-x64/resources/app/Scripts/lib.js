@@ -36,7 +36,7 @@ var Lib;
         static toggleColor(selector) {
             $(selector).css("background-color", "grey");
             setTimeout(() => {
-                $(selector).css("background-color", "white");
+                $(selector).css("background-color", "#1e1e1e");
             }, 80);
         }
     }
