@@ -1,3 +1,5 @@
+const { ipcRenderer } = require('electron');
+
 namespace Lib {
 
 	/**
@@ -197,5 +199,20 @@ namespace Lib {
 	export enum Component {
 		ShowKey,
 		Volume,
+	}
+
+	/**
+	 * メインプロセスとの通信
+	 */
+	export class IpcRenderer {
+
+		public static resizeWindow(isExpand: boolean) {
+			// メインプロセスに通知
+			ipcRenderer.send('resize', isExpand);
+		}
+
+		public static openDevTools() {
+			ipcRenderer.send("showDevTools");
+		}
 	}
 }

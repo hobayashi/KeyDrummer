@@ -1,4 +1,3 @@
-const { ipcRenderer } = require('electron');
 $(() => {
     Lib.AudioInitializer.init();
     Lib.Storage.load();
@@ -10,13 +9,13 @@ $(() => {
         isExpand ? $(event.currentTarget).text("Full")
             : $(event.currentTarget).text("Mini");
         // メインプロセスに通知
-        ipcRenderer.send('resize', !isExpand);
+        Lib.IpcRenderer.resizeWindow(!isExpand);
         // drum表示/非表示
         $(".drum").toggleClass("app-hidden");
     }).on("keydown", event => {
         // F12でDevTools表示
         if (event.key === "F12") {
-            ipcRenderer.send("showDevTools");
+            Lib.IpcRenderer.openDevTools();
         }
     });
 });

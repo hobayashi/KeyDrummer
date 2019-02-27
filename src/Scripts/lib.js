@@ -1,3 +1,4 @@
+const { ipcRenderer } = require('electron');
 var Lib;
 (function (Lib) {
     /**
@@ -186,5 +187,18 @@ var Lib;
         Component[Component["ShowKey"] = 0] = "ShowKey";
         Component[Component["Volume"] = 1] = "Volume";
     })(Component = Lib.Component || (Lib.Component = {}));
+    /**
+     * メインプロセスとの通信
+     */
+    class IpcRenderer {
+        static resizeWindow(isExpand) {
+            // メインプロセスに通知
+            ipcRenderer.send('resize', isExpand);
+        }
+        static openDevTools() {
+            ipcRenderer.send("showDevTools");
+        }
+    }
+    Lib.IpcRenderer = IpcRenderer;
 })(Lib || (Lib = {}));
 //# sourceMappingURL=lib.js.map
