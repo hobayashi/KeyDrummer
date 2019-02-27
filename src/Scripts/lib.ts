@@ -50,6 +50,28 @@ namespace Lib {
 		public static changeVolume(volume: string): void {
 			$(".volume-value").html(volume);
 		}
+
+		/**
+		 * ビューモード切替
+		 * @param viewMode
+		 */
+		public static toggleViewMode(viewMode: string): void {
+			const button = $("#btn-resize");
+			const drum = $(".drum");
+			if (viewMode === Lib.ViewMode.Full) {
+				button
+					.attr("data-viewMode", Lib.ViewMode.Mini)
+					.text(Lib.ViewMode.Mini);
+				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Full);
+				drum.toggleClass("app-hidden", false);
+			} else {
+				button
+					.attr("data-viewMode", Lib.ViewMode.Full)
+					.text(Lib.ViewMode.Full);
+				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
+				drum.toggleClass("app-hidden", true);
+			}
+		}
 	}
 
 	/**
@@ -134,10 +156,12 @@ namespace Lib {
 	export class Storage {
 		private static showKeyMapKey = "showKeyMap";
 		private static volumeKey = "volume";
+		private static viewModeKey = "viewMode";
 
 		public static load() {
 			Storage.loadShowKeyMap();
 			Storage.loadVolume();
+			Storage.loadViewMode();
 		}
 
 		public static save(type: Component, value: any) {
@@ -148,6 +172,8 @@ namespace Lib {
 				case Component.Volume:
 					localStorage[Storage.volumeKey] = value;
 					break;
+				case Component.ViewMode:
+					localStorage[Storage.viewModeKey] = value;
 				default:
 					break;
 			}
@@ -174,6 +200,14 @@ namespace Lib {
 			$(".volume-slider").val(volume);
 			$(".volume-value").text(volume);
 		}
+
+		private static loadViewMode() {
+			const viewMode = localStorage[Storage.viewModeKey];
+			if (viewMode === undefined) {
+				return;
+			}
+			Decorator.toggleViewMode(viewMode);
+		}
 	}
 
 	/**
@@ -182,6 +216,7 @@ namespace Lib {
 	export enum Component {
 		ShowKey,
 		Volume,
+		ViewMode,
 	}
 
 	/**

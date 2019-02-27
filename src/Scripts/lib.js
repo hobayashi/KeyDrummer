@@ -42,6 +42,28 @@ var Lib;
         static changeVolume(volume) {
             $(".volume-value").html(volume);
         }
+        /**
+         * ビューモード切替
+         * @param viewMode
+         */
+        static toggleViewMode(viewMode) {
+            const button = $("#btn-resize");
+            const drum = $(".drum");
+            if (viewMode === Lib.ViewMode.Full) {
+                button
+                    .attr("data-viewMode", Lib.ViewMode.Mini)
+                    .text(Lib.ViewMode.Mini);
+                Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Full);
+                drum.toggleClass("app-hidden", false);
+            }
+            else {
+                button
+                    .attr("data-viewMode", Lib.ViewMode.Full)
+                    .text(Lib.ViewMode.Full);
+                Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
+                drum.toggleClass("app-hidden", true);
+            }
+        }
     }
     Lib.Decorator = Decorator;
     /**
@@ -125,6 +147,7 @@ var Lib;
         static load() {
             Storage.loadShowKeyMap();
             Storage.loadVolume();
+            Storage.loadViewMode();
         }
         static save(type, value) {
             switch (type) {
@@ -134,6 +157,8 @@ var Lib;
                 case Component.Volume:
                     localStorage[Storage.volumeKey] = value;
                     break;
+                case Component.ViewMode:
+                    localStorage[Storage.viewModeKey] = value;
                 default:
                     break;
             }
@@ -157,9 +182,17 @@ var Lib;
             $(".volume-slider").val(volume);
             $(".volume-value").text(volume);
         }
+        static loadViewMode() {
+            const viewMode = localStorage[Storage.viewModeKey];
+            if (viewMode === undefined) {
+                return;
+            }
+            Decorator.toggleViewMode(viewMode);
+        }
     }
     Storage.showKeyMapKey = "showKeyMap";
     Storage.volumeKey = "volume";
+    Storage.viewModeKey = "viewMode";
     Lib.Storage = Storage;
     /**
      * 構成要素
@@ -168,6 +201,7 @@ var Lib;
     (function (Component) {
         Component[Component["ShowKey"] = 0] = "ShowKey";
         Component[Component["Volume"] = 1] = "Volume";
+        Component[Component["ViewMode"] = 2] = "ViewMode";
     })(Component = Lib.Component || (Lib.Component = {}));
     /**
      * ビューモード
