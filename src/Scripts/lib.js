@@ -75,11 +75,11 @@ var Lib;
                 console.log(event.keyCode);
                 const audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
                 switch (event.keyCode) {
-                    case 66: //b
+                    case 72: //b
                         audio.playSound("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-left-pedal");
                         break;
-                    case 72: //h
+                    case 66: //h
                         audio.playSound("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-right-pedal");
                         break;
