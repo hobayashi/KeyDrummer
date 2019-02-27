@@ -15,7 +15,6 @@ const windowSize = {
 function createWindow() {
 	// メインウィンドウを作成します
 	mainWindow = new BrowserWindow({
-		titleBarStyle: "customButtonsOnHover",
 		width: windowSize.width,
 		height: windowSize.height,
 		// webPreferences: {
