@@ -1,5 +1,8 @@
 namespace Lib {
 
+	/**
+	 * Audioオブジェクトのラッパー
+	 */
 	export class AudioWrapper {
 		private audioElem: any;
 
@@ -35,6 +38,9 @@ namespace Lib {
 		}
 	}
 
+	/**
+	 * スタイルの調整など
+	 */
 	export class Decorator {
 
 		public static toggleColor(selector: string): void {
@@ -61,6 +67,9 @@ namespace Lib {
 		}
 	}
 
+	/**
+	 * Audioの初期化
+	 */
 	export class AudioInitializer {
 		public static init(): void {
 			$(document).on("keydown", event => {
@@ -125,14 +134,16 @@ namespace Lib {
 			}).on("input", ".volume-slider", event => {
 				Decorator.changeVolume($(event.currentTarget).val().toString());
 				$(".volume-value").html($(event.currentTarget).val().toString());
-			}).on("click", "#checkbox-show-key", event => {
+			}).on("click", "#checkbox-show-key-map", event => {
 				Decorator.toggleShowKeyMap();
 				Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
 			})
 		}
 	}
 
-	/** localStorageを扱う */
+	/**
+	 *  localStorageを扱う
+	 */
 	export class Storage {
 		private static showKeyMapKey = "showKeyMap";
 
@@ -146,7 +157,7 @@ namespace Lib {
 			Decorator.toggleShowKeyMap(showKeyMap);
 
 			// checkBoxのトグル
-			$("#checkbox-show-key").prop("checked", !showKeyMap);
+			$("#checkbox-show-key-map").prop("checked", !showKeyMap);
 		}
 
 		public static save(type: Component, value: any) {
@@ -160,6 +171,9 @@ namespace Lib {
 		}
 	}
 
+	/**
+	 * 構成要素
+	 */
 	export enum Component {
 		ShowKey,
 	}

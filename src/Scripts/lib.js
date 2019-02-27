@@ -1,5 +1,8 @@
 var Lib;
 (function (Lib) {
+    /**
+     * Audioオブジェクトのラッパー
+     */
     class AudioWrapper {
         constructor(volume) {
             this.audioElem = new Audio();
@@ -32,6 +35,9 @@ var Lib;
         }
     }
     Lib.AudioWrapper = AudioWrapper;
+    /**
+     * スタイルの調整など
+     */
     class Decorator {
         static toggleColor(selector) {
             $(selector).css("background-color", "grey");
@@ -55,6 +61,9 @@ var Lib;
         }
     }
     Lib.Decorator = Decorator;
+    /**
+     * Audioの初期化
+     */
     class AudioInitializer {
         static init() {
             $(document).on("keydown", event => {
@@ -117,14 +126,16 @@ var Lib;
             }).on("input", ".volume-slider", event => {
                 Decorator.changeVolume($(event.currentTarget).val().toString());
                 $(".volume-value").html($(event.currentTarget).val().toString());
-            }).on("click", "#checkbox-show-key", event => {
+            }).on("click", "#checkbox-show-key-map", event => {
                 Decorator.toggleShowKeyMap();
                 Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
             });
         }
     }
     Lib.AudioInitializer = AudioInitializer;
-    /** localStorageを扱う */
+    /**
+     *  localStorageを扱う
+     */
     class Storage {
         static load() {
             const showKeyMapString = localStorage[Storage.showKeyMapKey];
@@ -135,7 +146,7 @@ var Lib;
             // key表示のトグル
             Decorator.toggleShowKeyMap(showKeyMap);
             // checkBoxのトグル
-            $("#checkbox-show-key").prop("checked", !showKeyMap);
+            $("#checkbox-show-key-map").prop("checked", !showKeyMap);
         }
         static save(type, value) {
             switch (type) {
@@ -149,6 +160,9 @@ var Lib;
     }
     Storage.showKeyMapKey = "showKeyMap";
     Lib.Storage = Storage;
+    /**
+     * 構成要素
+     */
     let Component;
     (function (Component) {
         Component[Component["ShowKey"] = 0] = "ShowKey";
