@@ -58,13 +58,16 @@ app.on('activate', () => {
 });
 
 // IPC（レンダープロセスから通知される）
-ipcMain.on('resize', (event, isExpand) => {
-	if (isExpand) {
+ipcMain.on('resize', (event, mode) => {
+	if (mode === "full") {
 		// フル表示
 		mainWindow.setSize(windowSize.width, windowSize.height);
-	} else {
+		return;
+	}
+	if (mode === "mini") {
 		// ミニ表示
 		mainWindow.setSize(windowSize.width, 150);
+		return;
 	}
 }).on('showDevTools', event => {
 	// デベロッパーツールの起動
