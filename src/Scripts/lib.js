@@ -188,12 +188,20 @@ var Lib;
         Component[Component["Volume"] = 1] = "Volume";
     })(Component = Lib.Component || (Lib.Component = {}));
     /**
+     * ビューモード
+     */
+    let ViewMode;
+    (function (ViewMode) {
+        ViewMode["Full"] = "full";
+        ViewMode["Mini"] = "mini";
+    })(ViewMode = Lib.ViewMode || (Lib.ViewMode = {}));
+    /**
      * メインプロセスとの通信
      */
     class IpcRenderer {
-        static resizeWindow(isExpand) {
+        static resizeWindow(viewMode) {
             // メインプロセスに通知
-            ipcRenderer.send('resize', isExpand);
+            ipcRenderer.send('resize', viewMode);
         }
         static openDevTools() {
             ipcRenderer.send("showDevTools");

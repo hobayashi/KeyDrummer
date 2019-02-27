@@ -202,13 +202,21 @@ namespace Lib {
 	}
 
 	/**
+	 * ビューモード
+	 */
+	export enum ViewMode {
+		Full = "full",
+		Mini = "mini",
+	}
+
+	/**
 	 * メインプロセスとの通信
 	 */
 	export class IpcRenderer {
 
-		public static resizeWindow(isExpand: boolean) {
+		public static resizeWindow(viewMode: ViewMode) {
 			// メインプロセスに通知
-			ipcRenderer.send('resize', isExpand);
+			ipcRenderer.send('resize', viewMode);
 		}
 
 		public static openDevTools() {
