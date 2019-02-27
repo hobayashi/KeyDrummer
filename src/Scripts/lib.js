@@ -39,6 +39,20 @@ var Lib;
                 $(selector).css("background-color", "white");
             }, 80);
         }
+        /**
+         * キー表示のトグル
+         * @param show
+         */
+        static toggleShowKeyMap(show) {
+            $(".label-asign").toggleClass("app-hidden", show);
+        }
+        /**
+         * ボリューム変更
+         * @param volume
+         */
+        static changeVolume(volume) {
+            $(".volume-value").html(volume);
+        }
     }
     Lib.Decorator = Decorator;
     class AudioInitializer {
@@ -47,66 +61,97 @@ var Lib;
                 console.log(event.keyCode);
                 const audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
                 switch (event.keyCode) {
-                    case 66://b
+                    case 66: //b
                         audio.PlaySound("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-left-pedal");
                         break;
-                    case 72://h
+                    case 72: //h
                         audio.PlaySound("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-right-pedal");
                         break;
-                    case 32://space
+                    case 32: //space
                         audio.PlaySound("Contents/Sounds/Crash Cymbal-R06.wav");
                         Decorator.toggleColor(".drum-part-crash");
                         break;
-                    case 65://a
+                    case 65: //a
                         audio.PlaySound("Contents/Sounds/OHH Edge03.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
-                    case 88://x
+                    case 88: //x
                         audio.PlaySound("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
-                    case 86://v
+                    case 86: //v
                         audio.PlaySound("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
                     case 90: //z
-                    case 67://c
+                    case 67: //c
                         audio.PlaySound("Contents/Sounds/CHH Edge06.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
-                    case 16://shift
+                    case 16: //shift
                         audio.PlaySound("Contents/Sounds/China Cymbal04.wav");
                         Decorator.toggleColor(".drum-part-china");
                         break;
                     case 84: //t
-                    case 71://g
+                    case 71: //g
                         audio.PlaySound("Contents/Sounds/Floor Tom09.wav");
                         Decorator.toggleColor(".drum-part-low-tom");
                         break;
                     case 70: //f
-                    case 82://r
+                    case 82: //r
                         audio.PlaySound("Contents/Sounds/Mid Tom05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
                     case 68: //d
-                    case 69://e
+                    case 69: //e
                         audio.PlaySound("Contents/Sounds/High Tom08.wav");
                         Decorator.toggleColor(".drum-part-high-tom");
                         break;
-                    case 83://s
+                    case 83: //s
                         audio.PlaySound("Contents/Sounds/Ride Cymbal-Tip05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
                 }
             }).on("input", ".volume-slider", event => {
+                Decorator.changeVolume($(event.currentTarget).val().toString());
                 $(".volume-value").html($(event.currentTarget).val().toString());
             }).on("click", "#checkbox-show-key", event => {
-                $(".label-asign").toggleClass("app-hidden");
+                Decorator.toggleShowKeyMap();
+                Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
             });
         }
     }
     Lib.AudioInitializer = AudioInitializer;
+    /** localStorageを扱う */
+    class Storage {
+        static load() {
+            const showKeyMapString = localStorage[Storage.showKeyMapKey];
+            if (showKeyMapString === undefined) {
+                return;
+            }
+            const showKeyMap = showKeyMapString.toLowerCase() === "false";
+            // key表示のトグル
+            Decorator.toggleShowKeyMap(showKeyMap);
+            // checkBoxのトグル
+            $("#checkbox-show-key").prop("checked", !showKeyMap);
+        }
+        static save(type, value) {
+            switch (type) {
+                case Component.ShowKey:
+                    localStorage[Storage.showKeyMapKey] = value;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    Storage.showKeyMapKey = "showKeyMap";
+    Lib.Storage = Storage;
+    let Component;
+    (function (Component) {
+        Component[Component["ShowKey"] = 0] = "ShowKey";
+    })(Component = Lib.Component || (Lib.Component = {}));
 })(Lib || (Lib = {}));
 //# sourceMappingURL=lib.js.map

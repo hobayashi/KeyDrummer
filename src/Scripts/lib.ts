@@ -43,6 +43,22 @@ namespace Lib {
 				$(selector).css("background-color", "white")
 			}, 80);
 		}
+
+		/**
+		 * キー表示のトグル
+		 * @param show 
+		 */
+		public static toggleShowKeyMap(show?: boolean): void {
+			$(".label-asign").toggleClass("app-hidden", show);
+		}
+
+		/**
+		 * ボリューム変更
+		 * @param volume 
+		 */
+		public static changeVolume(volume: string): void {
+			$(".volume-value").html(volume);
+		}
 	}
 
 	export class AudioInitializer {
@@ -57,7 +73,7 @@ namespace Lib {
 						audio.PlaySound("Contents/Sounds/Kick08.wav");
 						Decorator.toggleColor(".drum-part-left-pedal");
 						break;
-						case 72://h
+					case 72://h
 						audio.PlaySound("Contents/Sounds/Kick08.wav");
 						Decorator.toggleColor(".drum-part-right-pedal");
 						break;
@@ -107,10 +123,44 @@ namespace Lib {
 						break;
 				}
 			}).on("input", ".volume-slider", event => {
+				Decorator.changeVolume($(event.currentTarget).val().toString());
 				$(".volume-value").html($(event.currentTarget).val().toString());
 			}).on("click", "#checkbox-show-key", event => {
-				$(".label-asign").toggleClass("app-hidden");
+				Decorator.toggleShowKeyMap();
+				Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
 			})
 		}
+	}
+
+	/** localStorageを扱う */
+	export class Storage {
+		private static showKeyMapKey = "showKeyMap";
+
+		public static load() {
+			const showKeyMapString = localStorage[Storage.showKeyMapKey];
+			if (showKeyMapString === undefined) {
+				return;
+			}
+			const showKeyMap = showKeyMapString.toLowerCase() === "false";
+			// key表示のトグル
+			Decorator.toggleShowKeyMap(showKeyMap);
+
+			// checkBoxのトグル
+			$("#checkbox-show-key").prop("checked", !showKeyMap);
+		}
+
+		public static save(type: Component, value: any) {
+			switch (type) {
+				case Component.ShowKey:
+					localStorage[Storage.showKeyMapKey] = value;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	export enum Component {
+		ShowKey,
 	}
 }
