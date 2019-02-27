@@ -132,8 +132,10 @@ namespace Lib {
 						break;
 				}
 			}).on("input", ".volume-slider", event => {
-				Decorator.changeVolume($(event.currentTarget).val().toString());
-				$(".volume-value").html($(event.currentTarget).val().toString());
+				const value = $(event.currentTarget).val();
+				Decorator.changeVolume(value.toString());
+				$(".volume-value").html(value.toString());
+				Storage.save(Component.Volume, value);
 			}).on("click", "#checkbox-show-key-map", event => {
 				Decorator.toggleShowKeyMap();
 				Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
@@ -146,8 +148,27 @@ namespace Lib {
 	 */
 	export class Storage {
 		private static showKeyMapKey = "showKeyMap";
+		private static volumeKey = "volume";
 
 		public static load() {
+			Storage.loadShowKeyMap();
+			Storage.loadVolume();
+		}
+
+		public static save(type: Component, value: any) {
+			switch (type) {
+				case Component.ShowKey:
+					localStorage[Storage.showKeyMapKey] = value;
+					break;
+				case Component.Volume:
+					localStorage[Storage.volumeKey] = value;
+					break;
+				default:
+					break;
+			}
+		}
+
+		private static loadShowKeyMap() {
 			const showKeyMapString = localStorage[Storage.showKeyMapKey];
 			if (showKeyMapString === undefined) {
 				return;
@@ -160,14 +181,13 @@ namespace Lib {
 			$("#checkbox-show-key-map").prop("checked", !showKeyMap);
 		}
 
-		public static save(type: Component, value: any) {
-			switch (type) {
-				case Component.ShowKey:
-					localStorage[Storage.showKeyMapKey] = value;
-					break;
-				default:
-					break;
+		private static loadVolume() {
+			const volume = localStorage[Storage.volumeKey];
+			if (volume === undefined) {
+				return;
 			}
+			$(".volume-slider").val(volume);
+			$(".volume-value").text(volume);
 		}
 	}
 
@@ -176,5 +196,6 @@ namespace Lib {
 	 */
 	export enum Component {
 		ShowKey,
+		Volume,
 	}
 }

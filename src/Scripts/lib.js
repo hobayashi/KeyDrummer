@@ -124,8 +124,10 @@ var Lib;
                         break;
                 }
             }).on("input", ".volume-slider", event => {
-                Decorator.changeVolume($(event.currentTarget).val().toString());
-                $(".volume-value").html($(event.currentTarget).val().toString());
+                const value = $(event.currentTarget).val();
+                Decorator.changeVolume(value.toString());
+                $(".volume-value").html(value.toString());
+                Storage.save(Component.Volume, value);
             }).on("click", "#checkbox-show-key-map", event => {
                 Decorator.toggleShowKeyMap();
                 Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
@@ -138,6 +140,22 @@ var Lib;
      */
     class Storage {
         static load() {
+            Storage.loadShowKeyMap();
+            Storage.loadVolume();
+        }
+        static save(type, value) {
+            switch (type) {
+                case Component.ShowKey:
+                    localStorage[Storage.showKeyMapKey] = value;
+                    break;
+                case Component.Volume:
+                    localStorage[Storage.volumeKey] = value;
+                    break;
+                default:
+                    break;
+            }
+        }
+        static loadShowKeyMap() {
             const showKeyMapString = localStorage[Storage.showKeyMapKey];
             if (showKeyMapString === undefined) {
                 return;
@@ -148,17 +166,17 @@ var Lib;
             // checkBoxのトグル
             $("#checkbox-show-key-map").prop("checked", !showKeyMap);
         }
-        static save(type, value) {
-            switch (type) {
-                case Component.ShowKey:
-                    localStorage[Storage.showKeyMapKey] = value;
-                    break;
-                default:
-                    break;
+        static loadVolume() {
+            const volume = localStorage[Storage.volumeKey];
+            if (volume === undefined) {
+                return;
             }
+            $(".volume-slider").val(volume);
+            $(".volume-value").text(volume);
         }
     }
     Storage.showKeyMapKey = "showKeyMap";
+    Storage.volumeKey = "volume";
     Lib.Storage = Storage;
     /**
      * 構成要素
@@ -166,6 +184,7 @@ var Lib;
     let Component;
     (function (Component) {
         Component[Component["ShowKey"] = 0] = "ShowKey";
+        Component[Component["Volume"] = 1] = "Volume";
     })(Component = Lib.Component || (Lib.Component = {}));
 })(Lib || (Lib = {}));
 //# sourceMappingURL=lib.js.map
