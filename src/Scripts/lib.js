@@ -5,20 +5,20 @@ var Lib;
     /**
      * Audioオブジェクトのラッパー
      */
-    class AudioWrapper {
+    class Player {
         constructor(volume) {
-            this.audioElem = new Audio();
-            this.audioElem.volume = volume;
+            this.audio = new Audio();
+            this.audio.volume = volume;
         }
-        playSound(path) {
-            this.audioElem.src = path;
-            this.audioElem.play();
+        play(path) {
+            this.audio.src = path;
+            this.audio.play();
         }
-        stopSound() {
-            this.audioElem.pause();
+        pause() {
+            this.audio.pause();
         }
     }
-    Lib.AudioWrapper = AudioWrapper;
+    Lib.Player = Player;
     /**
      * スタイルの調整など
      */
@@ -68,64 +68,65 @@ var Lib;
     }
     Lib.Decorator = Decorator;
     /**
-     * Audioの初期化
+     * Playerの初期化
      */
-    class AudioInitializer {
+    class PlayerInitializer {
         static init() {
             $(document).on("keydown", event => {
                 console.log(event.keyCode);
-                const audio = new Lib.AudioWrapper(Number($(".volume-value").html()));
+                const volume = $(".volume-slider").val();
+                const player = new Lib.Player(Number(volume));
                 switch (event.keyCode) {
                     case 72: //b
-                        audio.playSound("Contents/Sounds/Kick08.wav");
+                        player.play("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-left-pedal");
                         break;
                     case 66: //h
-                        audio.playSound("Contents/Sounds/Kick08.wav");
+                        player.play("Contents/Sounds/Kick08.wav");
                         Decorator.toggleColor(".drum-part-right-pedal");
                         break;
                     case 32: //space
-                        audio.playSound("Contents/Sounds/Crash Cymbal-R06.wav");
+                        player.play("Contents/Sounds/Crash Cymbal-R06.wav");
                         Decorator.toggleColor(".drum-part-crash");
                         break;
                     case 65: //a
-                        audio.playSound("Contents/Sounds/OHH Edge03.wav");
+                        player.play("Contents/Sounds/OHH Edge03.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
                     case 88: //x
-                        audio.playSound("Contents/Sounds/Snare OR07.wav");
+                        player.play("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
                     case 86: //v
-                        audio.playSound("Contents/Sounds/Snare OR07.wav");
+                        player.play("Contents/Sounds/Snare OR07.wav");
                         Decorator.toggleColor(".drum-part-snare");
                         break;
                     case 90: //z
                     case 67: //c
-                        audio.playSound("Contents/Sounds/CHH Edge06.wav");
+                        player.play("Contents/Sounds/CHH Edge06.wav");
                         Decorator.toggleColor(".drum-part-highhat");
                         break;
                     case 16: //shift
-                        audio.playSound("Contents/Sounds/China Cymbal04.wav");
+                        player.play("Contents/Sounds/China Cymbal04.wav");
                         Decorator.toggleColor(".drum-part-china");
                         break;
                     case 84: //t
                     case 71: //g
-                        audio.playSound("Contents/Sounds/Floor Tom09.wav");
+                        player.play("Contents/Sounds/Floor Tom09.wav");
                         Decorator.toggleColor(".drum-part-low-tom");
                         break;
                     case 70: //f
                     case 82: //r
-                        audio.playSound("Contents/Sounds/Mid Tom05.wav");
+                        player.play("Contents/Sounds/Mid Tom05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
                     case 68: //d
                     case 69: //e
-                        audio.playSound("Contents/Sounds/High Tom08.wav");
+                        player.play("Contents/Sounds/High Tom08.wav");
                         Decorator.toggleColor(".drum-part-high-tom");
                         break;
                     case 83: //s
-                        audio.playSound("Contents/Sounds/Ride Cymbal-Tip05.wav");
+                        player.play("Contents/Sounds/Ride Cymbal-Tip05.wav");
                         Decorator.toggleColor(".drum-part-middle-tom");
                         break;
                 }
@@ -140,7 +141,7 @@ var Lib;
             });
         }
     }
-    Lib.AudioInitializer = AudioInitializer;
+    Lib.PlayerInitializer = PlayerInitializer;
     /**
      *  localStorageを扱う
      */

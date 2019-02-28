@@ -2,8 +2,8 @@ $(() => {
 	// タイトルバーをいい感じに
 	Lib.WindowInitializer.init();
 
-	// Audioオブジェクトの初期化
-	Lib.AudioInitializer.init();
+	// Playerの初期化
+	Lib.PlayerInitializer.init();
 
 	// localStorageから設定の復元
 	Lib.Storage.load();
