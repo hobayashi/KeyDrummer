@@ -52,9 +52,11 @@ h1 {
     width: 80px;
     height: 80px;
 	border-radius: 100%;
-	display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.drum-part-small > .label-asign{
+	text-align: center;
+	line-height: 41px;
 }
 
 .drum-part-foot {
