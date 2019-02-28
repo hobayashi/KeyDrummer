@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const customTitlebar = require('custom-electron-titlebar');
 
 namespace Lib {
 
@@ -239,6 +240,18 @@ namespace Lib {
 
 		public static openDevTools() {
 			ipcRenderer.send("showDevTools");
+		}
+	}
+
+	/**
+	 * ウィンドウの初期化
+	 */
+	export class WindowInitializer {
+
+		public static init() {
+			new customTitlebar.Titlebar({
+				backgroundColor: customTitlebar.Color.fromHex('#444')
+			});		
 		}
 	}
 }

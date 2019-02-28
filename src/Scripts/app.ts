@@ -1,11 +1,11 @@
-const customTitlebar = require('custom-electron-titlebar');
-
 $(() => {
-	new customTitlebar.Titlebar({
-		backgroundColor: customTitlebar.Color.fromHex('#444')
-	});
+	// タイトルバーをいい感じに
+	Lib.WindowInitializer.init();
 
+	// Audioオブジェクトの初期化
 	Lib.AudioInitializer.init();
+
+	// localStorageから設定の復元
 	Lib.Storage.load();
 
 	$(document).on("click", "#btn-resize", event => {

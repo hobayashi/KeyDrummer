@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const customTitlebar = require('custom-electron-titlebar');
 var Lib;
 (function (Lib) {
     /**
@@ -224,5 +225,16 @@ var Lib;
         }
     }
     Lib.IpcRenderer = IpcRenderer;
+    /**
+     * ウィンドウの初期化
+     */
+    class WindowInitializer {
+        static init() {
+            new customTitlebar.Titlebar({
+                backgroundColor: customTitlebar.Color.fromHex('#444')
+            });
+        }
+    }
+    Lib.WindowInitializer = WindowInitializer;
 })(Lib || (Lib = {}));
 //# sourceMappingURL=lib.js.map
