@@ -1,6 +1,7 @@
 {
   "main": "main.js",
   "dependencies": {
+    "custom-electron-titlebar": "^3.0.3",
     "jquery": "^3.3.1"
   }
 }
