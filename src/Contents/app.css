@@ -114,8 +114,11 @@ h1 {
 }
 
 #btn-resize {
-	border: white solid 1px;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
     border-radius: 5px;
 	padding: 0px 7px;
 	cursor: pointer;
+	margin: 6px;
 }
