@@ -26,6 +26,13 @@ $(() => {
 			$target.animate({"right": "-300px"});
 		}
 		$target.toggleClass("hide");
+	}).on("keydown", ".setting-crash", event => {
+		$(event.currentTarget).val(event.key);
+		$(event.currentTarget).attr("data-keyCode", event.keyCode);
+		return false;
+	}).on("click", ".setting-save", event => {
+		// const key = $(".setting-crash").val();
+		alert();
 	});
 });
 

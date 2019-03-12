@@ -81,8 +81,6 @@ namespace Lib {
 	export class PlayerInitializer {
 		public static init(): void {
 			$(document).on("keydown", event => {
-				console.log(event.keyCode);
-
 				const volume = $(".volume-slider").val();
 				const player = new Lib.Player(Number(volume));
 

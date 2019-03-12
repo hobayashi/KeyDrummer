@@ -73,7 +73,6 @@ var Lib;
     class PlayerInitializer {
         static init() {
             $(document).on("keydown", event => {
-                console.log(event.keyCode);
                 const volume = $(".volume-slider").val();
                 const player = new Lib.Player(Number(volume));
                 switch (event.keyCode) {
