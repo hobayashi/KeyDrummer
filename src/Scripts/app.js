@@ -15,6 +15,15 @@ $(() => {
         if (event.key === "F12") {
             Lib.IpcRenderer.openDevTools();
         }
+    }).on("click", "#setting", event => {
+        const $target = $(".side");
+        if ($target.hasClass("hide")) {
+            $target.animate({ "right": "0px" });
+        }
+        else {
+            $target.animate({ "right": "-300px" });
+        }
+        $target.toggleClass("hide");
     });
 });
 //# sourceMappingURL=app.js.map

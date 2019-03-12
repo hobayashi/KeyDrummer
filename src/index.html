@@ -1,61 +1,70 @@
 <html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Sound Sampler Ver.E</title>
+		<link rel="stylesheet" href="Contents/app.css" type="text/css" />
+	</head>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Sound Sampler Ver.E</title>
-	<link rel="stylesheet" href="Contents/app.css" type="text/css" />
-</head>
-
-<body>
-	<button id="btn-resize" data-viewMode="mini">mini</button>
-	<div class="container">
-		<div class="drum">
-			<div class="drum-part-common drum-part-high-tom">
-				<span class="label-asign">E,D</span>
+	<body>
+		<div class="side hide">side</div>
+		<div class="main">
+			<button id="btn-resize" class="btn-custom" data-viewMode="mini">mini</button>
+			<button id="setting" class="btn-custom">setting</button>
+			<div class="container">
+				<div class="drum">
+					<div class="drum-part-common drum-part-high-tom">
+						<span class="label-asign">E,D</span>
+					</div>
+					<div class="drum-part-common drum-part-middle-tom">
+						<div class="label-asign">S</div>
+						<div class="label-asign">R,F</div>
+					</div>
+					<div class="drum-part-common drum-part-low-tom">
+						<span class="label-asign">T,G</span>
+					</div>
+					<div class="drum-part-common drum-part-snare">
+						<span class="label-asign">X,V</span>
+					</div>
+					<div class="drum-part-common drum-part-crash">
+						<span class="label-asign">Space</span>
+					</div>
+					<div class="drum-part-common drum-part-china">
+						<span class="label-asign">Shift</span>
+					</div>
+					<div class="drum-part-small drum-part-highhat">
+						<div class="label-asign">A</div>
+						<div class="label-asign">Z,C</div>
+					</div>
+					<div class="drum-part-foot drum-part-left-pedal">
+						<span class="label-asign">H</span>
+					</div>
+					<div class="drum-part-foot drum-part-right-pedal">
+						<span class="label-asign">B</span>
+					</div>
+				</div>
 			</div>
-			<div class="drum-part-common drum-part-middle-tom">
-				<div class="label-asign">S</div>
-				<div class="label-asign">R,F</div>
+			<div class="controller">
+				<label>Vol</label>
+				<input
+					class="volume-slider"
+					type="range"
+					min="0"
+					max="1"
+					step="0.1"
+					value="0.3"
+				/>
+				<span class="volume-value">0.3</span>
 			</div>
-			<div class="drum-part-common drum-part-low-tom">
-				<span class="label-asign">T,G</span>
-			</div>
-			<div class="drum-part-common drum-part-snare">
-				<span class="label-asign">X,V</span>
-			</div>
-			<div class="drum-part-common drum-part-crash">
-				<span class="label-asign">Space</span>
-			</div>
-			<div class="drum-part-common drum-part-china">
-				<span class="label-asign">Shift</span>
-			</div>
-			<div class="drum-part-small drum-part-highhat">
-				<div class="label-asign">A</div>
-				<div class="label-asign">Z,C</div>
-			</div>
-			<div class="drum-part-foot drum-part-left-pedal">
-				<span class="label-asign">H</span>
-			</div>
-			<div class="drum-part-foot drum-part-right-pedal">
-				<span class="label-asign">B</span>
+			<div class="controller">
+				<label>Show Key</label>
+				<input type="checkbox" id="checkbox-show-key-map" checked />
 			</div>
 		</div>
-	</div>
-	<div class="controller">
-		<label>Vol</label>
-		<input class="volume-slider" type="range" min="0" max="1" step="0.1" value="0.3">
-		<span class="volume-value">0.3</span>
-	</div>
-	<div class="controller">
-		<label>Show Key</label>
-		<input type="checkbox" id="checkbox-show-key-map" checked>
-	</div>
-	<script src="Scripts/jquery-3.2.1.js"></script>
-	<script>
-		window.jQuery = window.$ = require('jquery');
-	</script>
-	<script src="Scripts/lib.js"></script>
-	<script src="Scripts/app.js"></script>
-</body>
-
+		<script src="Scripts/jquery-3.2.1.js"></script>
+		<script>
+			window.jQuery = window.$ = require('jquery');
+		</script>
+		<script src="Scripts/lib.js"></script>
+		<script src="Scripts/app.js"></script>
+	</body>
 </html>
