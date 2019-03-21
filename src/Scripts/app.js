@@ -6,7 +6,7 @@ $(() => {
     // localStorageから設定の復元
     Lib.Storage.load();
     // 設定画面DOM作成
-    Lib.SettingManager.create();
+    Lib.SettingManager.load();
     $(document).on("click", "#btn-resize", event => {
         // button要素にフル表示/ミニ表示かの状態を保持
         const viewMode = $(event.currentTarget).attr("data-viewMode");
@@ -30,6 +30,10 @@ $(() => {
     }).on("click", ".setting-save", event => {
         // キー設定保存
         Lib.SettingManager.save();
+    }).on("keydown", ".setting > .key", event => {
+        $(event.currentTarget).val(event.key);
+        $(event.currentTarget).siblings(".keycode").val(event.keyCode);
+        return false;
     });
 });
 //# sourceMappingURL=app.js.map

@@ -150,13 +150,21 @@ var Lib;
     Storage.viewModeKey = "viewMode";
     Lib.Storage = Storage;
     class SettingManager {
-        static create() {
+        static load() {
             for (const key in keys) {
                 const setting = keys[key];
                 const label = $("<label>").addClass(`map label-setting-${setting.map}`).text(setting.map);
-                const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`).attr("type", "text").val(setting.key);
-                const keyCodeInput = $("<input>").addClass(`keycode keycode-setting-${setting.map}`).attr("type", "text").val(key);
-                const fileNameInput = $("<input>").addClass(`filename filename-setting-${setting.map}`).attr("type", "text").val(setting.fileName);
+                const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`)
+                    .attr("type", "text")
+                    .val(setting.key);
+                const keyCodeInput = $("<input>").addClass(`keycode keycode-setting-${setting.map}`)
+                    .attr("type", "text")
+                    .val(key)
+                    .prop("disabled", true);
+                const fileNameInput = $("<input>").addClass(`filename filename-setting-${setting.map}`)
+                    .attr("type", "text")
+                    .val(setting.fileName)
+                    .prop("disabled", true);
                 const wrapper = $("<div>").addClass("setting").append(label, keyInput, keyCodeInput, fileNameInput);
                 $(".side").append(wrapper);
             }
@@ -174,8 +182,8 @@ var Lib;
             });
             const data = JSON.stringify({
                 "keys": setting
-            });
-            fs.writeFileSync("src/keysetting2.json", data);
+            }, null, "	");
+            fs.writeFileSync("src/keysetting.json", data);
             alert("saved");
         }
     }
