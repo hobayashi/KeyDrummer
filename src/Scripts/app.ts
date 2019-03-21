@@ -8,6 +8,9 @@ $(() => {
 	// localStorageから設定の復元
 	Lib.Storage.load();
 
+	// 設定画面DOM作成
+	Lib.SettingManager.create();
+
 	$(document).on("click", "#btn-resize", event => {
 		// button要素にフル表示/ミニ表示かの状態を保持
 		const viewMode = $(event.currentTarget).attr("data-viewMode");
@@ -19,6 +22,7 @@ $(() => {
 			Lib.IpcRenderer.openDevTools();
 		}
 	}).on("click", "#setting", event => {
+		// キー設定画面表示
 		const $target = $(".side");
 		if ($target.hasClass("hide")) {
 			$target.animate({"right": "0px"});
@@ -26,13 +30,9 @@ $(() => {
 			$target.animate({"right": "-300px"});
 		}
 		$target.toggleClass("hide");
-	}).on("keydown", ".setting-crash", event => {
-		$(event.currentTarget).val(event.key);
-		$(event.currentTarget).attr("data-keyCode", event.keyCode);
-		return false;
 	}).on("click", ".setting-save", event => {
-		// const key = $(".setting-crash").val();
-		alert();
+		// キー設定保存
+		Lib.SettingManager.save();
 	});
 });
 

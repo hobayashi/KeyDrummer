@@ -2,7 +2,6 @@ const { ipcRenderer } = require('electron');
 const customTitlebar = require('custom-electron-titlebar');
 const fs = require('fs');
 const keys = JSON.parse(fs.readFileSync('src/keysetting.json', 'utf-8')).keys;
-
 namespace Lib {
 
 	/**
@@ -160,6 +159,40 @@ namespace Lib {
 				return;
 			}
 			Decorator.toggleViewMode(viewMode);
+		}
+	}
+
+	export class SettingManager {
+
+		public static create() {
+			for (const key in keys) {
+				const setting:KeySetting = keys[key];
+				const label = $("<label>").addClass(`map label-setting-${setting.map}`).text(setting.map);
+				const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`).attr("type", "text").val(setting.key);
+				const keyCodeInput = $("<input>").addClass(`keycode keycode-setting-${setting.map}`).attr("type", "text").val(key);
+				const fileNameInput = $("<input>").addClass(`filename filename-setting-${setting.map}`).attr("type", "text").val(setting.fileName);
+				const wrapper = $("<div>").addClass("setting").append(label, keyInput, keyCodeInput, fileNameInput);
+				$(".side").append(wrapper);
+			}
+		}
+
+		public static save() {
+			let setting = {};
+			$(".setting").each((index, element) => {
+				const map = $(element).find(".map").text();
+				const key = $(element).find(".key").val();
+				const keyCode = $(element).find(".keycode").val() as string;
+				const fileName = $(element).find(".filename").val();
+				setting[keyCode] = {
+					key, fileName, map
+				};
+			});
+			const data = JSON.stringify({
+				"keys": setting
+			});
+
+			fs.writeFileSync("src/keysetting2.json", data);
+			alert("saved");
 		}
 	}
 

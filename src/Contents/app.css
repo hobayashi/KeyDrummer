@@ -157,3 +157,12 @@ h1 {
 	z-index: 1;
 	border-left: 1px solid white;
 }
+
+.side > div > input {
+	width: 50px;
+}
+
+.side > div > label {
+	display: inline-block;
+	width: 120px;
+}
