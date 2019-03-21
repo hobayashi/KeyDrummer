@@ -1,5 +1,7 @@
 const { ipcRenderer } = require('electron');
 const customTitlebar = require('custom-electron-titlebar');
+const fs = require('fs');
+const keys = JSON.parse(fs.readFileSync('src/keysetting.json', 'utf-8')).keys;
 var Lib;
 (function (Lib) {
     /**
@@ -75,60 +77,12 @@ var Lib;
             $(document).on("keydown", event => {
                 const volume = $(".volume-slider").val();
                 const player = new Lib.Player(Number(volume));
-                switch (event.keyCode) {
-                    case 72: //b
-                        player.play("Contents/Sounds/Kick08.wav");
-                        Decorator.toggleColor(".drum-part-left-pedal");
-                        break;
-                    case 66: //h
-                        player.play("Contents/Sounds/Kick08.wav");
-                        Decorator.toggleColor(".drum-part-right-pedal");
-                        break;
-                    case 32: //space
-                        player.play("Contents/Sounds/Crash Cymbal-R06.wav");
-                        Decorator.toggleColor(".drum-part-crash");
-                        break;
-                    case 65: //a
-                        player.play("Contents/Sounds/OHH Edge03.wav");
-                        Decorator.toggleColor(".drum-part-highhat");
-                        break;
-                    case 88: //x
-                        player.play("Contents/Sounds/Snare OR07.wav");
-                        Decorator.toggleColor(".drum-part-snare");
-                        break;
-                    case 86: //v
-                        player.play("Contents/Sounds/Snare OR07.wav");
-                        Decorator.toggleColor(".drum-part-snare");
-                        break;
-                    case 90: //z
-                    case 67: //c
-                        player.play("Contents/Sounds/CHH Edge06.wav");
-                        Decorator.toggleColor(".drum-part-highhat");
-                        break;
-                    case 16: //shift
-                        player.play("Contents/Sounds/China Cymbal04.wav");
-                        Decorator.toggleColor(".drum-part-china");
-                        break;
-                    case 84: //t
-                    case 71: //g
-                        player.play("Contents/Sounds/Floor Tom09.wav");
-                        Decorator.toggleColor(".drum-part-low-tom");
-                        break;
-                    case 70: //f
-                    case 82: //r
-                        player.play("Contents/Sounds/Mid Tom05.wav");
-                        Decorator.toggleColor(".drum-part-middle-tom");
-                        break;
-                    case 68: //d
-                    case 69: //e
-                        player.play("Contents/Sounds/High Tom08.wav");
-                        Decorator.toggleColor(".drum-part-high-tom");
-                        break;
-                    case 83: //s
-                        player.play("Contents/Sounds/Ride Cymbal-Tip05.wav");
-                        Decorator.toggleColor(".drum-part-middle-tom");
-                        break;
+                const setting = keys[event.keyCode];
+                if (!setting) {
+                    return;
                 }
+                player.play(`Contents/Sounds/${setting.fileName}`);
+                Decorator.toggleColor(`.drum-part-${setting.map}`);
             }).on("input", ".volume-slider", event => {
                 const value = $(event.currentTarget).val();
                 Decorator.changeVolume(value.toString());

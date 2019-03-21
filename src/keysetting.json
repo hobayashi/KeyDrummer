@@ -1,0 +1,84 @@
+{
+	"keys": {
+		"65": {
+			"key": "a",
+			"fileName": "OHH Edge03.wav",
+			"map": "highhat"
+		},
+		"88": {
+			"key": "x",
+			"fileName": "Snare OR07.wav",
+			"map": "snare"
+		},
+		"86": {
+			"key": "v",
+			"fileName": "Snare OR07.wav",
+			"map": "snare"
+		},
+		"90": {
+			"key": "z",
+			"fileName": "CHH Edge06.wav",
+			"map": "highhat"
+		},
+		"67": {
+			"key": "c",
+			"fileName": "CHH Edge06.wav",
+			"map": "highhat"
+		},
+		"84": {
+			"key": "t",
+			"fileName": "Floor Tom09.wav",
+			"map": "low-tom"
+		},
+		"71": {
+			"key": "g",
+			"fileName": "Floor Tom09.wav",
+			"map": "low-tom"
+		},
+		"70": {
+			"key": "f",
+			"fileName": "Mid Tom05.wav",
+			"map": "middle-tom"
+		},
+		"82": {
+			"key": "r",
+			"fileName": "Mid Tom05.wav",
+			"map": "middle-tom"
+		},
+		"68": {
+			"key": "d",
+			"fileName": "High Tom08.wav",
+			"map": "high-tom"
+		},
+		"69": {
+			"key": "e",
+			"fileName": "High Tom08.wav",
+			"map": "high-tom"
+		},
+		"83": {
+			"key": "s",
+			"fileName": "Ride Cymbal-Tip05.wav",
+			"map": "middle-tom"
+		},
+		"72": {
+			"key": "h",
+			"fileName": "Kick08.wav",
+			"map": "left-pedal"
+		},
+		"66": {
+			"key": "b",
+			"fileName": "Kick08.wav",
+			"map": "right-pedal"
+		},
+		"32": {
+			"key": " ",
+			"fileName": "Crash Cymbal-R06.wav",
+			"map": "crash"
+		},
+		"16": {
+			"key": "Shift",
+			"fileName": "China Cymbal04.wav",
+			"map": "china"
+		}
+	}
+}
