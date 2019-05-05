@@ -18,11 +18,11 @@ function createWindow() {
 		frame: false,
 		width: windowSize.width,
 		height: windowSize.height,
-		// webPreferences: {
-		// 	// jqueryを使う
-		// 	// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
-		// 	nodeIntegration: false
-		// }
+		webPreferences: {
+			// jqueryを使う
+			// https://qiita.com/pirosikick/items/72d11a8578c5c3327069
+			nodeIntegration: true
+		}
 	});
 
 	// メインウィンドウに表示するURLを指定します
