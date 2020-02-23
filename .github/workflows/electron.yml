@@ -16,6 +16,8 @@ jobs:
     # srcに移動
     - name: cd working dir
       run: cd src
+    - name: ls
+      run: ls
     - name: npm install
       run: npm install
     # ここでアプリをビルド
