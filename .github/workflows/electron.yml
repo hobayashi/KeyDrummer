@@ -18,6 +18,12 @@ jobs:
     # ここでアプリをビルド
     - name: publish
       run: npm run publish --prefix src
+    # Upload Artifact
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: macOS
+        path: src/dist
     # Release の作成とビルドしたパッケージのアップロード
     - name: create release
       uses: softprops/action-gh-release@v1
