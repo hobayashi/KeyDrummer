@@ -27,7 +27,7 @@ $(() => {
 		if ($target.hasClass("hide")) {
 			$target.animate({"right": "0px"});
 		} else {
-			$target.animate({"right": "-300px"});
+			$target.animate({"right": "-350px"});
 		}
 		$target.toggleClass("hide");
 	}).on("click", ".setting-save", event => {

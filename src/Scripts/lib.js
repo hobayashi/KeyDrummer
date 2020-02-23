@@ -1,5 +1,7 @@
 var ipcRenderer = require('electron').ipcRenderer;
 var customTitlebar = require('custom-electron-titlebar');
+// メインプロセス側のローカルファイルはelectron.remoteのfsを使う
+// https://qiita.com/icbmuma/items/eb47fa03144c5fff9008
 var electron = require('electron');
 var fs = electron.remote.require('fs');
 var keys = JSON.parse(fs.readFileSync('keysetting.json', 'utf-8')).keys;
@@ -171,7 +173,7 @@ var Lib;
                     .attr("type", "text")
                     .val(setting.key);
                 var keyCodeInput = $("<input>").addClass("keycode keycode-setting-" + setting.map)
-                    .attr("type", "text")
+                    .attr("type", "hidden")
                     .val(key)
                     .prop("disabled", true);
                 var fileNameInput = $("<input>").addClass("filename filename-setting-" + setting.map)

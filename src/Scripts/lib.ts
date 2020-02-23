@@ -175,7 +175,7 @@ namespace Lib {
 					.attr("type", "text")
 					.val(setting.key);
 				const keyCodeInput = $("<input>").addClass(`keycode keycode-setting-${setting.map}`)
-					.attr("type", "text")
+					.attr("type", "hidden")
 					.val(key)
 					.prop("disabled", true);
 				const fileNameInput = $("<input>").addClass(`filename filename-setting-${setting.map}`)
