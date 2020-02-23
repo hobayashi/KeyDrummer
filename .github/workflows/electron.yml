@@ -19,7 +19,7 @@ jobs:
     - name: publish
       run: npm run publish --prefix src
     # Upload Artifact
-    - name: Upload artifacts
+    - name: upload artifacts
       uses: actions/upload-artifact@v1
       with:
         name: macOS
@@ -47,9 +47,15 @@ jobs:
       with:
         node-version: 12.x
     - name: npm install
-      run: npm install --prefix src
+      run: npm --prefix ./src install ./src
     - name: publish
-      run: npm run publish --prefix src
+      run: npm --prefix ./src run publish ./src
+    # Upload Artifact
+    - name: upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: Windows
+        path: src/dist
     - name: create release
       uses: softprops/action-gh-release@v1
       with:
