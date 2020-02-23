@@ -1,7 +1,8 @@
 const { ipcRenderer } = require('electron');
 const customTitlebar = require('custom-electron-titlebar');
-const fs = require('fs');
-const keys = JSON.parse(fs.readFileSync('src/keysetting.json', 'utf-8')).keys;
+const electron = require('electron');
+const fs = electron.remote.require('fs');
+const keys = JSON.parse(fs.readFileSync('keysetting.json', 'utf-8')).keys;
 namespace Lib {
 
 	/**
@@ -199,7 +200,7 @@ namespace Lib {
 				"keys": setting
 			}, null, "	");
 
-			fs.writeFileSync("src/keysetting.json", data);
+			fs.writeFileSync("keysetting.json", data);
 			alert("saved");
 		}
 	}

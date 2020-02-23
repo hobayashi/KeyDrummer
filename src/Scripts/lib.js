@@ -1,58 +1,61 @@
-const { ipcRenderer } = require('electron');
-const customTitlebar = require('custom-electron-titlebar');
-const electron = require('electron');
-const fs = electron.remote.require('fs');
-const keys = JSON.parse(fs.readFileSync('keysetting.json', 'utf-8')).keys;
+var ipcRenderer = require('electron').ipcRenderer;
+var customTitlebar = require('custom-electron-titlebar');
+var electron = require('electron');
+var fs = electron.remote.require('fs');
+var keys = JSON.parse(fs.readFileSync('keysetting.json', 'utf-8')).keys;
 var Lib;
 (function (Lib) {
     /**
      * Audioオブジェクトのラッパー
      */
-    class Player {
-        constructor(volume) {
+    var Player = /** @class */ (function () {
+        function Player(volume) {
             this.audio = new Audio();
             this.audio.volume = volume;
         }
-        play(path) {
+        Player.prototype.play = function (path) {
             this.audio.src = path;
             this.audio.play();
-        }
-        pause() {
+        };
+        Player.prototype.pause = function () {
             this.audio.pause();
-        }
-    }
+        };
+        return Player;
+    }());
     Lib.Player = Player;
     /**
      * スタイルの調整など
      */
-    class Decorator {
-        static toggleColor(selector) {
+    var Decorator = /** @class */ (function () {
+        function Decorator() {
+        }
+        Decorator.toggleColor = function (selector) {
             $(selector).css("background-color", "grey");
-            setTimeout(() => {
+            setTimeout(function () {
                 $(selector).css("background-color", "#1e1e1e");
             }, 80);
-        }
+        };
         /**
          * キー表示のトグル
          * @param show
          */
-        static toggleShowKeyMap(show) {
+        Decorator.toggleShowKeyMap = function (show) {
             $(".label-asign").toggleClass("app-hidden", show);
-        }
+        };
         /**
          * ボリューム変更
          * @param volume
          */
-        static changeVolume(volume) {
+        Decorator.changeVolume = function (volume) {
             $(".volume-value").html(volume);
-        }
+        };
         /**
          * ビューモード切替
          * @param viewMode
          */
-        static toggleViewMode(viewMode) {
-            const button = $("#btn-resize");
-            const drum = $(".drum");
+        Decorator.toggleViewMode = function (viewMode) {
+            var button = $("#btn-resize");
+            var drum = $(".drum");
             if (viewMode === Lib.ViewMode.Full) {
                 button
                     .attr("data-viewMode", Lib.ViewMode.Mini)
@@ -67,45 +70,51 @@ var Lib;
                 Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
                 drum.toggleClass("app-hidden", true);
             }
-        }
-    }
+        };
+        return Decorator;
+    }());
     Lib.Decorator = Decorator;
     /**
      * Playerの初期化
      */
-    class PlayerInitializer {
-        static init() {
-            $(document).on("keydown", event => {
-                const volume = $(".volume-slider").val();
-                const player = new Lib.Player(Number(volume));
-                const setting = keys[event.keyCode];
+    var PlayerInitializer = /** @class */ (function () {
+        function PlayerInitializer() {
+        }
+        PlayerInitializer.init = function () {
+            $(document).on("keydown", function (event) {
+                var volume = $(".volume-slider").val();
+                var player = new Lib.Player(Number(volume));
+                var setting = keys[event.keyCode];
                 if (!setting) {
                     return;
                 }
-                player.play(`Contents/Sounds/${setting.fileName}`);
-                Decorator.toggleColor(`.drum-part-${setting.map}`);
-            }).on("input", ".volume-slider", event => {
-                const value = $(event.currentTarget).val();
+                player.play("Contents/Sounds/" + setting.fileName);
+                Decorator.toggleColor(".drum-part-" + setting.map);
+            }).on("input", ".volume-slider", function (event) {
+                var value = $(event.currentTarget).val();
                 Decorator.changeVolume(value.toString());
                 $(".volume-value").html(value.toString());
                 Storage.save(Component.Volume, value);
-            }).on("click", "#checkbox-show-key-map", event => {
+            }).on("click", "#checkbox-show-key-map", function (event) {
                 Decorator.toggleShowKeyMap();
                 Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
             });
-        }
-    }
+        };
+        return PlayerInitializer;
+    }());
     Lib.PlayerInitializer = PlayerInitializer;
     /**
      *  localStorageを扱う
      */
-    class Storage {
-        static load() {
+    var Storage = /** @class */ (function () {
+        function Storage() {
+        }
+        Storage.load = function () {
             Storage.loadShowKeyMap();
             Storage.loadVolume();
             Storage.loadViewMode();
-        }
-        static save(type, value) {
+        };
+        Storage.save = function (type, value) {
             switch (type) {
                 case Component.ShowKey:
                     localStorage[Storage.showKeyMapKey] = value;
@@ -118,81 +127,85 @@ var Lib;
                 default:
                     break;
             }
-        }
-        static loadShowKeyMap() {
-            const showKeyMapString = localStorage[Storage.showKeyMapKey];
+        };
+        Storage.loadShowKeyMap = function () {
+            var showKeyMapString = localStorage[Storage.showKeyMapKey];
             if (showKeyMapString === undefined) {
                 return;
             }
-            const showKeyMap = showKeyMapString.toLowerCase() === "false";
+            var showKeyMap = showKeyMapString.toLowerCase() === "false";
             // key表示のトグル
             Decorator.toggleShowKeyMap(showKeyMap);
             // checkBoxのトグル
             $("#checkbox-show-key-map").prop("checked", !showKeyMap);
-        }
-        static loadVolume() {
-            const volume = localStorage[Storage.volumeKey];
+        };
+        Storage.loadVolume = function () {
+            var volume = localStorage[Storage.volumeKey];
             if (volume === undefined) {
                 return;
             }
             $(".volume-slider").val(volume);
             $(".volume-value").text(volume);
-        }
-        static loadViewMode() {
-            const viewMode = localStorage[Storage.viewModeKey];
+        };
+        Storage.loadViewMode = function () {
+            var viewMode = localStorage[Storage.viewModeKey];
             if (viewMode === undefined) {
                 return;
             }
             Decorator.toggleViewMode(viewMode);
-        }
-    }
-    Storage.showKeyMapKey = "showKeyMap";
-    Storage.volumeKey = "volume";
-    Storage.viewModeKey = "viewMode";
+        };
+        Storage.showKeyMapKey = "showKeyMap";
+        Storage.volumeKey = "volume";
+        Storage.viewModeKey = "viewMode";
+        return Storage;
+    }());
     Lib.Storage = Storage;
-    class SettingManager {
-        static load() {
-            for (const key in keys) {
-                const setting = keys[key];
-                const label = $("<label>").addClass(`map label-setting-${setting.map}`).text(setting.map);
-                const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`)
+    var SettingManager = /** @class */ (function () {
+        function SettingManager() {
+        }
+        SettingManager.load = function () {
+            for (var key in keys) {
+                var setting = keys[key];
+                var label = $("<label>").addClass("map label-setting-" + setting.map).text(setting.map);
+                var keyInput = $("<input>").addClass("key key-setting-" + setting.map)
                     .attr("type", "text")
                     .val(setting.key);
-                const keyCodeInput = $("<input>").addClass(`keycode keycode-setting-${setting.map}`)
+                var keyCodeInput = $("<input>").addClass("keycode keycode-setting-" + setting.map)
                     .attr("type", "text")
                     .val(key)
                     .prop("disabled", true);
-                const fileNameInput = $("<input>").addClass(`filename filename-setting-${setting.map}`)
+                var fileNameInput = $("<input>").addClass("filename filename-setting-" + setting.map)
                     .attr("type", "text")
                     .val(setting.fileName)
                     .prop("disabled", true);
-                const wrapper = $("<div>").addClass("setting").append(label, keyInput, keyCodeInput, fileNameInput);
+                var wrapper = $("<div>").addClass("setting").append(label, keyInput, keyCodeInput, fileNameInput);
                 $(".side").append(wrapper);
             }
-        }
-        static save() {
-            let setting = {};
-            $(".setting").each((index, element) => {
-                const map = $(element).find(".map").text();
-                const key = $(element).find(".key").val();
-                const keyCode = $(element).find(".keycode").val();
-                const fileName = $(element).find(".filename").val();
+        };
+        SettingManager.save = function () {
+            var setting = {};
+            $(".setting").each(function (index, element) {
+                var map = $(element).find(".map").text();
+                var key = $(element).find(".key").val();
+                var keyCode = $(element).find(".keycode").val();
+                var fileName = $(element).find(".filename").val();
                 setting[keyCode] = {
-                    key, fileName, map
+                    key: key, fileName: fileName, map: map
                 };
             });
-            const data = JSON.stringify({
+            var data = JSON.stringify({
                 "keys": setting
             }, null, "	");
             fs.writeFileSync("keysetting.json", data);
             alert("saved");
-        }
-    }
+        };
+        return SettingManager;
+    }());
     Lib.SettingManager = SettingManager;
     /**
      * 構成要素
      */
-    let Component;
+    var Component;
     (function (Component) {
         Component[Component["ShowKey"] = 0] = "ShowKey";
         Component[Component["Volume"] = 1] = "Volume";
@@ -201,7 +214,7 @@ var Lib;
     /**
      * ビューモード
      */
-    let ViewMode;
+    var ViewMode;
     (function (ViewMode) {
         ViewMode["Full"] = "full";
         ViewMode["Mini"] = "mini";
@@ -209,26 +222,31 @@ var Lib;
     /**
      * メインプロセスとの通信
      */
-    class IpcRenderer {
-        static resizeWindow(viewMode) {
+    var IpcRenderer = /** @class */ (function () {
+        function IpcRenderer() {
+        }
+        IpcRenderer.resizeWindow = function (viewMode) {
             // メインプロセスに通知
             ipcRenderer.send('resize', viewMode);
-        }
-        static openDevTools() {
+        };
+        IpcRenderer.openDevTools = function () {
             ipcRenderer.send("showDevTools");
-        }
-    }
+        };
+        return IpcRenderer;
+    }());
     Lib.IpcRenderer = IpcRenderer;
     /**
      * ウィンドウの初期化
      */
-    class WindowInitializer {
-        static init() {
+    var WindowInitializer = /** @class */ (function () {
+        function WindowInitializer() {
+        }
+        WindowInitializer.init = function () {
             new customTitlebar.Titlebar({
                 backgroundColor: customTitlebar.Color.fromHex('#444')
             });
-        }
-    }
+        };
+        return WindowInitializer;
+    }());
     Lib.WindowInitializer = WindowInitializer;
 })(Lib || (Lib = {}));
-//# sourceMappingURL=lib.js.map
