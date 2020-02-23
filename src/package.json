@@ -1,13 +1,11 @@
 {
-	"name": "SoundSamplerVerE",
+	"name": "KeyDrummer",
 	"version": "1.0.0",
 	"author": "hideb",
 	"description": "You can play the drum sounds by keyboad input.",
 	"main": "main.js",
 	"scripts": {
 		"start": "npx electron .",
-		"build-macOS": "npx electron-packager . SoundSamplerVerE --platform=darwin --arch=x64 --overwrite",
-		"build-windows": "npx electron-packager . SoundSamplerVerE --platform=win32 --arch=x64 --overwrite",
 		"publish": "electron-builder"
 	},
 	"devDependencies": {
