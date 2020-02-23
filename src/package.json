@@ -20,5 +20,10 @@
 	"dependencies": {
 		"custom-electron-titlebar": "^3.2.2-hotfix62",
 		"jquery": "^3.4.1"
+	},
+	"build": {
+		"extraFiles": [
+			"keysetting.json"
+		]
 	}
 }
