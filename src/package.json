@@ -1,7 +1,23 @@
 {
-  "main": "main.js",
-  "dependencies": {
-    "custom-electron-titlebar": "^3.0.3",
-    "jquery": "^3.3.1"
-  }
+	"name": "SoundSamplerVerE",
+	"version": "1.0.0",
+	"author": "hideb",
+	"description": "You can play the drum sounds by keyboad input.",
+	"main": "main.js",
+	"scripts": {
+		"start": "npx electron .",
+		"build-macOS": "npx electron-packager . SoundSamplerVerE --platform=darwin --arch=x64 --overwrite",
+		"build-windows": "npx electron-packager . SoundSamplerVerE --platform=win32 --arch=x64 --overwrite",
+		"publish": "electron-builder"
+	},
+	"devDependencies": {
+		"electron": "^1.8.2",
+		"electron-builder": "^22.3.2",
+		"electron-packager": "^11.0.1"
+	},
+	"private": true,
+	"dependencies": {
+		"custom-electron-titlebar": "^3.2.2-hotfix62",
+		"jquery": "^3.4.1"
+	}
 }
