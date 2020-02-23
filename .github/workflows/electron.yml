@@ -13,16 +13,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    # srcに移動
-    - name: cd working dir
-      run: cd src
-    - name: ls
-      run: ls
-    - name: npm install
+    - name: npm install --prefix src
       run: npm install
     # ここでアプリをビルド
     - name: publish
-      run: npm run publish
+      run: npm run publish --prefix src
     # Release の作成とビルドしたパッケージのアップロード
     - name: create release
       uses: softprops/action-gh-release@v1
@@ -46,9 +41,9 @@ jobs:
       with:
         node-version: 12.x
     - name: npm install
-      run: npm install
+      run: npm install --prefix src
     - name: publish
-      run: npm run publish
+      run: npm run publish --prefix src
     - name: create release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
