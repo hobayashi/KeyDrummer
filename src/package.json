@@ -20,6 +20,9 @@
 		"jquery": "^3.4.1"
 	},
 	"build": {
+		"extraResources":[
+			"keysetting.json"
+		],
 		"extraFiles": [
 			"keysetting.json"
 		]

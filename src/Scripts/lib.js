@@ -2,9 +2,15 @@ var ipcRenderer = require('electron').ipcRenderer;
 var customTitlebar = require('custom-electron-titlebar');
 // メインプロセス側のローカルファイルはelectron.remoteのfsを使う
 // https://qiita.com/icbmuma/items/eb47fa03144c5fff9008
+var path = require('path');
 var electron = require('electron');
 var fs = electron.remote.require('fs');
-var keys = JSON.parse(fs.readFileSync('keysetting.json', 'utf-8')).keys;
+var appPath = path.dirname(electron.remote.app.getAppPath());
+var settingFilePath = 'keysetting.json';
+if (process.cwd() === '/') {
+    settingFilePath = path.dirname(electron.remote.app.getAppPath()) + '/' + settingFilePath;
+}
+var keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
 var Lib;
 (function (Lib) {
     /**
