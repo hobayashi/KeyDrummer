@@ -10,7 +10,6 @@ let settingFilePath = 'keysetting.json';
 if (process.cwd() === '/') {
     settingFilePath = path.dirname(electron.remote.app.getAppPath()) + '/' + settingFilePath;
 }
-const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
 var Lib;
 (function (Lib) {
     /**
@@ -86,6 +85,7 @@ var Lib;
      */
     class PlayerInitializer {
         static init() {
+            const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
             $(document).on("keydown", event => {
                 const volume = $(".volume-slider").val();
                 const player = new Lib.Player(Number(volume));
@@ -163,7 +163,9 @@ var Lib;
     Lib.Storage = Storage;
     class SettingManager {
         static load() {
+            const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
             for (const key in keys) {
+                const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
                 const setting = keys[key];
                 const label = $("<label>").addClass(`map label-setting-${setting.map}`).text(setting.map);
                 const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`)

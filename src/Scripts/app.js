@@ -34,6 +34,7 @@ $(() => {
     }).on("click", ".setting-save", event => {
         // キー設定保存
         Lib.SettingManager.save();
+        Lib.PlayerInitializer.init();
     }).on("keydown", ".setting > .key", event => {
         $(event.currentTarget).val(event.key);
         $(event.currentTarget).siblings(".keycode").val(event.keyCode);
