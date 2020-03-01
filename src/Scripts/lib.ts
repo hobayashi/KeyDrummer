@@ -71,18 +71,21 @@ namespace Lib {
 		public static toggleViewMode(viewMode: string): void {
 			const button = $("#btn-resize");
 			const drum = $(".drum");
+			const side = $(".side");
 			if (viewMode === Lib.ViewMode.Full) {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Mini)
 					.text(Lib.ViewMode.Mini);
 				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Full);
 				drum.toggleClass("app-hidden", false);
+				side.toggleClass("app-hidden", false);
 			} else {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Full)
 					.text(Lib.ViewMode.Full);
 				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
 				drum.toggleClass("app-hidden", true);
+				side.toggleClass("app-hidden", true);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-$(function () {
+$(() => {
     // タイトルバーをいい感じに
     Lib.WindowInitializer.init();
     // Playerの初期化
@@ -7,19 +7,23 @@ $(function () {
     Lib.Storage.load();
     // 設定画面DOM作成
     Lib.SettingManager.load();
-    $(document).on("click", "#btn-resize", function (event) {
+    $(document).on("click", "#btn-resize", event => {
         // button要素にフル表示/ミニ表示かの状態を保持
-        var viewMode = $(event.currentTarget).attr("data-viewMode");
+        const viewMode = $(event.currentTarget).attr("data-viewMode");
         Lib.Decorator.toggleViewMode(viewMode);
         Lib.Storage.save(Lib.Component.ViewMode, viewMode);
-    }).on("keydown", function (event) {
+    }).on("keydown", event => {
         // F12でDevTools表示
         if (event.key === "F12") {
             Lib.IpcRenderer.openDevTools();
         }
-    }).on("click", "#setting", function (event) {
+        // Tabキーによるフォーカスを無効化
+        if (event.key === "Tab") {
+            return false;
+        }
+    }).on("click", "#setting", event => {
         // キー設定画面表示
-        var $target = $(".side");
+        const $target = $(".side");
         if ($target.hasClass("hide")) {
             $target.animate({ "right": "0px" });
         }
@@ -27,12 +31,13 @@ $(function () {
             $target.animate({ "right": "-350px" });
         }
         $target.toggleClass("hide");
-    }).on("click", ".setting-save", function (event) {
+    }).on("click", ".setting-save", event => {
         // キー設定保存
         Lib.SettingManager.save();
-    }).on("keydown", ".setting > .key", function (event) {
+    }).on("keydown", ".setting > .key", event => {
         $(event.currentTarget).val(event.key);
         $(event.currentTarget).siblings(".keycode").val(event.keyCode);
         return false;
     });
 });
+//# sourceMappingURL=app.js.map
