@@ -12,7 +12,6 @@ if (process.cwd() === '/') {
 	settingFilePath = path.dirname(electron.remote.app.getAppPath()) + '/' + settingFilePath;
 }
 
-const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
 namespace Lib {
 
 	/**
@@ -95,6 +94,8 @@ namespace Lib {
 	 */
 	export class PlayerInitializer {
 		public static init(): void {
+			const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
+
 			$(document).on("keydown", event => {
 				const volume = $(".volume-slider").val();
 				const player = new Lib.Player(Number(volume));
@@ -179,7 +180,11 @@ namespace Lib {
 	export class SettingManager {
 
 		public static load() {
+			const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
+
 			for (const key in keys) {
+				const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
+
 				const setting:KeySetting = keys[key];
 				const label = $("<label>").addClass(`map label-setting-${setting.map}`).text(setting.map);
 				const keyInput = $("<input>").addClass(`key key-setting-${setting.map}`)
@@ -258,7 +263,7 @@ namespace Lib {
 		public static init() {
 			new customTitlebar.Titlebar({
 				backgroundColor: customTitlebar.Color.fromHex('#444')
-			});		
+			});
 		}
 	}
 
