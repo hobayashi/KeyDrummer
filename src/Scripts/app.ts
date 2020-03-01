@@ -21,6 +21,11 @@ $(() => {
 		if (event.key === "F12") {
 			Lib.IpcRenderer.openDevTools();
 		}
+
+		// Tabキーによるフォーカスを無効化
+		if (event.key === "Tab") {
+			return false;
+		}
 	}).on("click", "#setting", event => {
 		// キー設定画面表示
 		const $target = $(".side");
