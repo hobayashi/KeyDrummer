@@ -258,7 +258,7 @@ namespace Lib {
 		public static init() {
 			new customTitlebar.Titlebar({
 				backgroundColor: customTitlebar.Color.fromHex('#444')
-			});		
+			});
 		}
 	}
 
