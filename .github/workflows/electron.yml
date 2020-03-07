@@ -1,7 +1,9 @@
 name: CI
 
 on:
-  [push]
+  push:
+    branches:
+      - master
   
 jobs:
   # macOS 用の job 定義
