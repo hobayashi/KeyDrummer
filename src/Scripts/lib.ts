@@ -81,14 +81,14 @@ namespace Lib {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Mini)
 					.text(Lib.ViewMode.Mini);
-				ipcRenderer.resizeWindow(Lib.ViewMode.Full);
+				this.ipcRenderer.resizeWindow(Lib.ViewMode.Full);
 				drum.toggleClass("app-hidden", false);
 				side.toggleClass("app-hidden", false);
 			} else {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Full)
 					.text(Lib.ViewMode.Full);
-				ipcRenderer.resizeWindow(Lib.ViewMode.Mini);
+				this.ipcRenderer.resizeWindow(Lib.ViewMode.Mini);
 				drum.toggleClass("app-hidden", true);
 				side.toggleClass("app-hidden", true);
 			}
