@@ -40,7 +40,13 @@ namespace Lib {
 	 */
 	export class Decorator {
 
-		public static toggleColor(selector: string): void {
+		private ipcRenderer: Lib.IpcRenderer;
+
+		constructor(ipcRenderer: Lib.IpcRenderer) {
+			this.ipcRenderer = ipcRenderer;
+		}
+
+		public toggleColor(selector: string): void {
 			$(selector).css("background-color", "grey");
 			setTimeout(() => {
 				$(selector).css("background-color", "#1e1e1e")
@@ -51,7 +57,7 @@ namespace Lib {
 		 * キー表示のトグル
 		 * @param show 
 		 */
-		public static toggleShowKeyMap(show?: boolean): void {
+		public toggleShowKeyMap(show?: boolean): void {
 			$(".label-asign").toggleClass("app-hidden", show);
 		}
 
@@ -59,7 +65,7 @@ namespace Lib {
 		 * ボリューム変更
 		 * @param volume 
 		 */
-		public static changeVolume(volume: string): void {
+		public changeVolume(volume: string): void {
 			$(".volume-value").html(volume);
 		}
 
@@ -67,7 +73,7 @@ namespace Lib {
 		 * ビューモード切替
 		 * @param viewMode
 		 */
-		public static toggleViewMode(viewMode: string): void {
+		public toggleViewMode(viewMode: string): void {
 			const button = $("#btn-resize");
 			const drum = $(".drum");
 			const side = $(".side");
@@ -75,14 +81,14 @@ namespace Lib {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Mini)
 					.text(Lib.ViewMode.Mini);
-				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Full);
+				ipcRenderer.resizeWindow(Lib.ViewMode.Full);
 				drum.toggleClass("app-hidden", false);
 				side.toggleClass("app-hidden", false);
 			} else {
 				button
 					.attr("data-viewMode", Lib.ViewMode.Full)
 					.text(Lib.ViewMode.Full);
-				Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
+				ipcRenderer.resizeWindow(Lib.ViewMode.Mini);
 				drum.toggleClass("app-hidden", true);
 				side.toggleClass("app-hidden", true);
 			}
@@ -93,7 +99,16 @@ namespace Lib {
 	 * Playerの初期化
 	 */
 	export class PlayerInitializer {
-		public static init(): void {
+
+		private decorator: Decorator;
+		private storage: Storage;
+
+		constructor(decorator: Decorator, storage: Storage) {
+			this.decorator = decorator;
+			this.storage = storage;
+		}
+
+		public init(): void {
 			const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
 
 			$(document).on("keydown", event => {
@@ -104,15 +119,15 @@ namespace Lib {
 					return;
 				}
 				player.play(`Contents/Sounds/${setting.fileName}`);
-				Decorator.toggleColor(`.drum-part-${setting.map}`);
+				this.decorator.toggleColor(`.drum-part-${setting.map}`);
 			}).on("input", ".volume-slider", event => {
 				const value = $(event.currentTarget).val();
-				Decorator.changeVolume(value.toString());
+				this.decorator.changeVolume(value.toString());
 				$(".volume-value").html(value.toString());
-				Storage.save(Component.Volume, value);
+				this.storage.save(Component.Volume, value);
 			}).on("click", "#checkbox-show-key-map", event => {
-				Decorator.toggleShowKeyMap();
-				Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
+				this.decorator.toggleShowKeyMap();
+				this.storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
 			})
 		}
 	}
@@ -121,17 +136,24 @@ namespace Lib {
 	 *  localStorageを扱う
 	 */
 	export class Storage {
+
+		private decorator: Decorator;
+
+		constructor(decorator: Decorator) {
+			this.decorator = decorator;
+		}
+
 		private static showKeyMapKey = "showKeyMap";
 		private static volumeKey = "volume";
 		private static viewModeKey = "viewMode";
 
-		public static load() {
-			Storage.loadShowKeyMap();
-			Storage.loadVolume();
-			Storage.loadViewMode();
+		public load() {
+			this.loadShowKeyMap();
+			this.loadVolume();
+			this.loadViewMode();
 		}
 
-		public static save(type: Component, value: any) {
+		public save(type: Component, value: any) {
 			switch (type) {
 				case Component.ShowKey:
 					localStorage[Storage.showKeyMapKey] = value;
@@ -146,20 +168,20 @@ namespace Lib {
 			}
 		}
 
-		private static loadShowKeyMap() {
+		private loadShowKeyMap() {
 			const showKeyMapString = localStorage[Storage.showKeyMapKey];
 			if (showKeyMapString === undefined) {
 				return;
 			}
 			const showKeyMap = showKeyMapString.toLowerCase() === "false";
 			// key表示のトグル
-			Decorator.toggleShowKeyMap(showKeyMap);
+			this.decorator.toggleShowKeyMap(showKeyMap);
 
 			// checkBoxのトグル
 			$("#checkbox-show-key-map").prop("checked", !showKeyMap);
 		}
 
-		private static loadVolume() {
+		private loadVolume() {
 			const volume = localStorage[Storage.volumeKey];
 			if (volume === undefined) {
 				return;
@@ -168,18 +190,18 @@ namespace Lib {
 			$(".volume-value").text(volume);
 		}
 
-		private static loadViewMode() {
+		private loadViewMode() {
 			const viewMode = localStorage[Storage.viewModeKey];
 			if (viewMode === undefined) {
 				return;
 			}
-			Decorator.toggleViewMode(viewMode);
+			this.decorator.toggleViewMode(viewMode);
 		}
 	}
 
 	export class SettingManager {
 
-		public static load() {
+		public load() {
 			const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
 
 			for (const key in keys) {
@@ -203,7 +225,7 @@ namespace Lib {
 			}
 		}
 
-		public static save() {
+		public save() {
 			let setting = {};
 			$(".setting").each((index, element) => {
 				const map = $(element).find(".map").text();
@@ -245,12 +267,12 @@ namespace Lib {
 	 */
 	export class IpcRenderer {
 
-		public static resizeWindow(viewMode: ViewMode) {
+		public resizeWindow(viewMode: ViewMode) {
 			// メインプロセスに通知
 			ipcRenderer.send('resize', viewMode);
 		}
 
-		public static openDevTools() {
+		public openDevTools() {
 			ipcRenderer.send("showDevTools");
 		}
 	}
@@ -260,7 +282,7 @@ namespace Lib {
 	 */
 	export class WindowInitializer {
 
-		public static init() {
+		public init() {
 			new customTitlebar.Titlebar({
 				backgroundColor: customTitlebar.Color.fromHex('#444')
 			});

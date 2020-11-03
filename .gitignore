@@ -3,3 +3,5 @@ src/node_modules/
 src/keysetting.json
 .DS_Store
 .vscode/
+
+SoundSamplerVerE-win32-x64/
