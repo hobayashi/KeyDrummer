@@ -1,2 +1,8 @@
-# SoundSamplerVerE
-Sound Sampler using electron.
+# Key Drummer
+Key Drummer is a drumming app using keyboard.
+
+## Installation
+
+## Usage
+
+## Screenshots
