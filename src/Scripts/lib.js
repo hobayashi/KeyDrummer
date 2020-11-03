@@ -33,7 +33,10 @@ var Lib;
      * スタイルの調整など
      */
     class Decorator {
-        static toggleColor(selector) {
+        constructor(ipcRenderer) {
+            this.ipcRenderer = ipcRenderer;
+        }
+        toggleColor(selector) {
             $(selector).css("background-color", "grey");
             setTimeout(() => {
                 $(selector).css("background-color", "#1e1e1e");
@@ -43,21 +46,21 @@ var Lib;
          * キー表示のトグル
          * @param show
          */
-        static toggleShowKeyMap(show) {
+        toggleShowKeyMap(show) {
             $(".label-asign").toggleClass("app-hidden", show);
         }
         /**
          * ボリューム変更
          * @param volume
          */
-        static changeVolume(volume) {
+        changeVolume(volume) {
             $(".volume-value").html(volume);
         }
         /**
          * ビューモード切替
          * @param viewMode
          */
-        static toggleViewMode(viewMode) {
+        toggleViewMode(viewMode) {
             const button = $("#btn-resize");
             const drum = $(".drum");
             const side = $(".side");
@@ -65,7 +68,7 @@ var Lib;
                 button
                     .attr("data-viewMode", Lib.ViewMode.Mini)
                     .text(Lib.ViewMode.Mini);
-                Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Full);
+                this.ipcRenderer.resizeWindow(Lib.ViewMode.Full);
                 drum.toggleClass("app-hidden", false);
                 side.toggleClass("app-hidden", false);
             }
@@ -73,7 +76,7 @@ var Lib;
                 button
                     .attr("data-viewMode", Lib.ViewMode.Full)
                     .text(Lib.ViewMode.Full);
-                Lib.IpcRenderer.resizeWindow(Lib.ViewMode.Mini);
+                this.ipcRenderer.resizeWindow(Lib.ViewMode.Mini);
                 drum.toggleClass("app-hidden", true);
                 side.toggleClass("app-hidden", true);
             }
@@ -84,7 +87,11 @@ var Lib;
      * Playerの初期化
      */
     class PlayerInitializer {
-        static init() {
+        constructor(decorator, storage) {
+            this.decorator = decorator;
+            this.storage = storage;
+        }
+        init() {
             const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
             $(document).on("keydown", event => {
                 const volume = $(".volume-slider").val();
@@ -94,15 +101,15 @@ var Lib;
                     return;
                 }
                 player.play(`Contents/Sounds/${setting.fileName}`);
-                Decorator.toggleColor(`.drum-part-${setting.map}`);
+                this.decorator.toggleColor(`.drum-part-${setting.map}`);
             }).on("input", ".volume-slider", event => {
                 const value = $(event.currentTarget).val();
-                Decorator.changeVolume(value.toString());
+                this.decorator.changeVolume(value.toString());
                 $(".volume-value").html(value.toString());
-                Storage.save(Component.Volume, value);
+                this.storage.save(Component.Volume, value);
             }).on("click", "#checkbox-show-key-map", event => {
-                Decorator.toggleShowKeyMap();
-                Storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
+                this.decorator.toggleShowKeyMap();
+                this.storage.save(Component.ShowKey, $(event.currentTarget).prop("checked"));
             });
         }
     }
@@ -111,12 +118,15 @@ var Lib;
      *  localStorageを扱う
      */
     class Storage {
-        static load() {
-            Storage.loadShowKeyMap();
-            Storage.loadVolume();
-            Storage.loadViewMode();
+        constructor(decorator) {
+            this.decorator = decorator;
         }
-        static save(type, value) {
+        load() {
+            this.loadShowKeyMap();
+            this.loadVolume();
+            this.loadViewMode();
+        }
+        save(type, value) {
             switch (type) {
                 case Component.ShowKey:
                     localStorage[Storage.showKeyMapKey] = value;
@@ -130,18 +140,18 @@ var Lib;
                     break;
             }
         }
-        static loadShowKeyMap() {
+        loadShowKeyMap() {
             const showKeyMapString = localStorage[Storage.showKeyMapKey];
             if (showKeyMapString === undefined) {
                 return;
             }
             const showKeyMap = showKeyMapString.toLowerCase() === "false";
             // key表示のトグル
-            Decorator.toggleShowKeyMap(showKeyMap);
+            this.decorator.toggleShowKeyMap(showKeyMap);
             // checkBoxのトグル
             $("#checkbox-show-key-map").prop("checked", !showKeyMap);
         }
-        static loadVolume() {
+        loadVolume() {
             const volume = localStorage[Storage.volumeKey];
             if (volume === undefined) {
                 return;
@@ -149,12 +159,12 @@ var Lib;
             $(".volume-slider").val(volume);
             $(".volume-value").text(volume);
         }
-        static loadViewMode() {
+        loadViewMode() {
             const viewMode = localStorage[Storage.viewModeKey];
             if (viewMode === undefined) {
                 return;
             }
-            Decorator.toggleViewMode(viewMode);
+            this.decorator.toggleViewMode(viewMode);
         }
     }
     Storage.showKeyMapKey = "showKeyMap";
@@ -162,7 +172,7 @@ var Lib;
     Storage.viewModeKey = "viewMode";
     Lib.Storage = Storage;
     class SettingManager {
-        static load() {
+        load() {
             const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
             for (const key in keys) {
                 const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
@@ -183,7 +193,7 @@ var Lib;
                 $(".side").append(wrapper);
             }
         }
-        static save() {
+        save() {
             let setting = {};
             $(".setting").each((index, element) => {
                 const map = $(element).find(".map").text();
@@ -223,11 +233,11 @@ var Lib;
      * メインプロセスとの通信
      */
     class IpcRenderer {
-        static resizeWindow(viewMode) {
+        resizeWindow(viewMode) {
             // メインプロセスに通知
             ipcRenderer.send('resize', viewMode);
         }
-        static openDevTools() {
+        openDevTools() {
             ipcRenderer.send("showDevTools");
         }
     }
@@ -236,7 +246,7 @@ var Lib;
      * ウィンドウの初期化
      */
     class WindowInitializer {
-        static init() {
+        init() {
             new customTitlebar.Titlebar({
                 backgroundColor: customTitlebar.Color.fromHex('#444')
             });
