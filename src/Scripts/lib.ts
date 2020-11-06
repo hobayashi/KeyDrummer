@@ -70,8 +70,8 @@ namespace Lib {
 		 * ボリューム変更
 		 * @param volume 
 		 */
-		public changeVolume(volume: string): void {
-			$(".volume-value").html(volume);
+		public changeVolume(volume: number): void {
+			$(".volume-value").html(Number(volume).toFixed(1));
 		}
 
 		/**
@@ -129,13 +129,12 @@ namespace Lib {
 				this.decorator.toggleColor(`.drum-part-${setting.map}`);
 
 				setTimeout(() => {
-					console.log(player.stop());
+					player.stop();
 				}, this.sustain);
 
 			}).on("input", ".volume-slider", event => {
 				const value = $(event.currentTarget).val();
-				this.decorator.changeVolume(value.toString());
-				$(".volume-value").html(value.toString());
+				this.decorator.changeVolume(value);
 				this.storage.save(Component.Volume, value);
 			}).on("click", "#checkbox-show-key-map", event => {
 				this.decorator.toggleShowKeyMap();
@@ -199,7 +198,7 @@ namespace Lib {
 				return;
 			}
 			$(".volume-slider").val(volume);
-			$(".volume-value").text(volume);
+			this.decorator.changeVolume(volume)
 		}
 
 		private loadViewMode() {
