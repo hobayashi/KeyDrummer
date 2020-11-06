@@ -24,7 +24,11 @@ var Lib;
             this.audio.src = path;
             this.audio.play();
         }
-        pause() {
+        get currentTime() {
+            return this.audio.currentTime;
+        }
+        stop() {
+            this.audio.currentTime = 0;
             this.audio.pause();
         }
     }
@@ -90,6 +94,7 @@ var Lib;
         constructor(decorator, storage) {
             this.decorator = decorator;
             this.storage = storage;
+            this.sustain = 2000;
         }
         init() {
             const keys = JSON.parse(fs.readFileSync(settingFilePath, 'utf-8')).keys;
@@ -102,6 +107,9 @@ var Lib;
                 }
                 player.play(`Contents/Sounds/${setting.fileName}`);
                 this.decorator.toggleColor(`.drum-part-${setting.map}`);
+                setTimeout(() => {
+                    console.log(player.stop());
+                }, this.sustain);
             }).on("input", ".volume-slider", event => {
                 const value = $(event.currentTarget).val();
                 this.decorator.changeVolume(value.toString());
