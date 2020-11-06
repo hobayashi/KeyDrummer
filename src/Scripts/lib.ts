@@ -18,7 +18,7 @@ namespace Lib {
 	 * Audioオブジェクトのラッパー
 	 */
 	export class Player {
-		private audio: any;
+		private audio: HTMLAudioElement;
 
 		constructor(volume: number) {
 			this.audio = new Audio();
@@ -30,7 +30,12 @@ namespace Lib {
 			this.audio.play();
 		}
 
-		public pause(): void {
+		public get currentTime(): number {
+			return this.audio.currentTime;
+		}
+
+		public stop(): void {
+			this.audio.currentTime = 0;
 			this.audio.pause();
 		}
 	}
@@ -100,12 +105,14 @@ namespace Lib {
 	 */
 	export class PlayerInitializer {
 
-		private decorator: Decorator;
-		private storage: Storage;
+		private readonly decorator: Decorator;
+		private readonly storage: Storage;
+		private readonly sustain: number;
 
 		constructor(decorator: Decorator, storage: Storage) {
 			this.decorator = decorator;
 			this.storage = storage;
+			this.sustain = 2000;
 		}
 
 		public init(): void {
@@ -120,6 +127,11 @@ namespace Lib {
 				}
 				player.play(`Contents/Sounds/${setting.fileName}`);
 				this.decorator.toggleColor(`.drum-part-${setting.map}`);
+
+				setTimeout(() => {
+					console.log(player.stop());
+				}, this.sustain);
+
 			}).on("input", ".volume-slider", event => {
 				const value = $(event.currentTarget).val();
 				this.decorator.changeVolume(value.toString());
