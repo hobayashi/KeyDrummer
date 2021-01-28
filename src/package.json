@@ -17,7 +17,7 @@
 	"private": true,
 	"dependencies": {
 		"custom-electron-titlebar": "^3.2.2-hotfix62",
-		"jquery": "^3.4.1"
+		"jquery": "^3.5.0"
 	},
 	"build": {
 		"extraResources":[
