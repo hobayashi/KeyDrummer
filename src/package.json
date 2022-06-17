@@ -10,7 +10,7 @@
 	},
 	"devDependencies": {
 		"@types/jquery": "^3.3.33",
-		"electron": "^1.8.2",
+		"electron": "^15.5.5",
 		"electron-builder": "^22.3.2",
 		"electron-packager": "^11.0.1"
 	},
